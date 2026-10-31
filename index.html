@@ -74,3 +74,20 @@ render();function sendOrderToWhatsApp() {
 
 </script>
 </body></html>
+function sendOrderToWhatsApp() {
+    const phoneNumber = "919975312904";
+    if (cart.length === 0) {
+        alert('कार्ट रिकामी आहे.');
+        return;
+    }
+    let message = "नमस्कार! मला SAI Electronic मधून ही ऑर्डर करायची आहे:\n\n";
+    let calculatedTotal = 0;
+    cart.forEach(item => {
+        let itemTotal = item.price * item.quantity;
+        calculatedTotal += itemTotal;
+        message += `• ${item.name} x ${item.quantity} = ₹${itemTotal}\n`;
+    });
+    message += `\n*एकूण रक्कम: ₹${calculatedTotal}*`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
