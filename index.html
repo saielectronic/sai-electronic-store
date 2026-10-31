@@ -59,6 +59,16 @@ function addProduct(){let name=document.getElementById('pname').value.trim(),pri
 function renderAdmin(){let e=document.getElementById('adminList');if(e)e.innerHTML='<h3>सध्याचे प्रॉडक्ट्स</h3>'+products.map(p=>`<div class="cartline"><span>${p.name} – ₹${p.price}</span><button class="danger" onclick="deleteProduct(${p.id})">डिलीट</button></div>`).join('')}
 function deleteProduct(id){products=products.filter(p=>p.id!==id);cart=cart.filter(c=>c.id!==id);save();render()}
 function copyOrder(){if(!cart.length){alert('कार्ट रिकामी आहे.');return}let t='SAI Electronic Faizpur - Order enquiry\n'+cart.map(c=>{let p=products.find(x=>x.id===c.id);return p?`${p.name} x ${c.qty} = Rs. ${p.price*c.qty}`:''}).join('\n')+'\n'+document.getElementById('total').textContent+'\nकृपया उपलब्धता कळवा.';navigator.clipboard?.writeText(t).then(()=>alert('ऑर्डर तपशील कॉपी झाला. दुकानाला WhatsApp करा.')).catch(()=>alert(t))}
-render();
+render();function sendOrderToWhatsApp() {
+    const phoneNumber = "919975312904"; 
+    let message = "नमस्कार! मला SAI Electronic मधून ही ऑर्डर द्यायची आहे:\n\n";
+    cart.forEach(item => {
+        message += `• ${item.name} x ${item.quantity} = ₹${item.price * item.quantity}\n`;
+    });
+    message += `\n*एकूण रक्कम: ₹${totalPrice}*`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+
 </script>
 </body></html>
