@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sai Electronics - Faizpur</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f1f3f6; padding-bottom: 20px; }
+
+    /* Main Header */
+    .header { background: #2874f0; color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 18px; font-weight: bold; }
+    .admin-btn { background: #fff; color: #2874f0; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; }
+
+    /* Shop Address & Contact Bar */
+    .shop-address-bar { background: #1a62d6; color: #e8f0fe; padding: 8px 15px; font-size: 12px; line-height: 1.4; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .shop-address-bar strong { color: #ffffff; }
+    .contact-link { color: #fff; text-decoration: underline; font-weight: bold; margin-left: 5px; }
+
+    /* Search Bar */
+    .search-container { padding: 10px 15px; background: #2874f0; }
+    .search-input { width: 100%; padding: 10px 15px; border-radius: 8px; border: none; outline: none; font-size: 14px; }
+
+    /* Categories Icon Grid */
+    .categories { display: flex; gap: 12px; overflow-x: auto; padding: 12px 15px; background: white; border-bottom: 1px solid #e0e0e0; scrollbar-width: none; }
+    .categories::-webkit-scrollbar { display: none; }
+    .category-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 65px; text-align: center; font-size: 12px; color: #333; font-weight: 500; }
+    .category-icon { width: 48px; height: 48px; border-radius: 50%; background: #e8f0fe; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; font-size: 22px; transition: 0.2s; }
+    .category-item.active .category-icon { background: #2874f0; color: white; }
+    .category-item.active span { color: #2874f0; font-weight: bold; }
+
+    /* Banner Slider */
+    .banner-container { width: 100%; overflow: hidden; position: relative; background: #fff; margin-bottom: 12px; }
+    .banner-slider { display: flex; transition: transform 0.5s ease-in-out; width: 100%; }
+    .banner-slide { min-width: 100%; box-sizing: border-box; }
+    .banner-slide img { width: 100%; height: 180px; object-fit: cover; display: block; }
+
+    /* Slider Dots */
+    .slider-dots { display: flex; justify-content: center; margin-top: -20px; position: relative; z-index: 5; padding-bottom: 8px; }
+    .dot { width: 8px; height: 8px; background: rgba(255, 255, 255, 0.6); border-radius: 50%; margin: 0 4px; cursor: pointer; }
+    .dot.active { background: #2874f0; width: 18px; border-radius: 10px; }
+
+    /* Product Section */
+    .container { padding: 0 12px; max-width: 600px; margin: 0 auto; }
+    .section-title { font-size: 16px; font-weight: bold; margin: 15px 0 10px 0; color: #111; }
+
+    /* Product Card */
+    .product-card { background: white; border-radius: 8px; overflow: hidden; margin-bottom: 15px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); position: relative; border: 1px solid #e0e0e0; }
+    .badge { position: absolute; top: 10px; left: 10px; background: #388e3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; z-index: 2; }
+    .product-img { width: 100%; height: 200px; object-fit: contain; background: #fff; padding: 10px; }
+    .product-details { padding: 12px; border-top: 1px solid #f0f0f0; }
+    .product-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #212121; }
+    .price-container { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .price { font-size: 17px; font-weight: bold; color: #212121; }
+    .original-price { text-decoration: line-through; color: #878787; font-size: 13px; }
+    .discount { color: #388e3c; font-weight: bold; font-size: 13px; }
+    .description { font-size: 12px; color: #666; margin-bottom: 12px; background: #f9f9f9; padding: 8px; border-radius: 4px; line-height: 1.4; }
+    .whatsapp-btn { width: 100%; background: #25d366; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+    /* Modal / Admin Popup */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: white; padding: 20px; border-radius: 8px; width: 95%; max-width: 450px; max-height: 90vh; overflow-y: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .modal-header { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #2874f0; display: flex; justify-content: space-between; align-items: center; }
+    .modal-input, .modal-select, .modal-textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+    .modal-btn { width: 100%; background: #2874f0; color: white; padding: 10px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+    .close-btn { background: #d9534f; margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- Main Header -->
+  <div class="header">
+    <h1>⚡ साई इलेक्ट्रॉनिक्स</h1>
+    <button class="admin-btn" onclick="openAdminModal()">ॲडमिन</button>
+  </div>
+
+  <!-- Shop Address & Contact Details Header -->
+  <div class="shop-address-bar">
+    📍 <strong>पत्ता:</strong> आठवडे बाजार, राजकमल कलेक्शन जवळ, फैजपूर.<br>
+    📞 <strong>संपर्क:</strong> <a href="tel:9145780320" class="contact-link">9145780320</a>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <input type="text" class="search-input" id="searchInput" onkeyup="searchProducts()" placeholder="फ्रीज, टीव्ही, वॉशिंग मशीन शोधा...">
+  </div>
+
+  <!-- Category List -->
+  <div class="categories">
+    <div class="category-item active" onclick="filterProducts('all', this)">
+      <div class="category-icon">🏠</div>
+      <span>सर्व</span>
+    </div>
+    <div class="category-item" onclick="filterProducts('tv', this)">
+      <div class="category-icon">📺</div>
+      <span>टीव्ही</span>
+    </div>
+    <div class="category-item" onclick="filterProducts('fridge', this)">
+      <div class="category-icon">❄️</div>
+      <span>फ्रीज</span>
+    </div>
+    <div class="category-item" onclick="filterProducts('washing', this)">
+      <div class="category-icon">🧺</div>
+      <span>वॉशिंग मशीन</span>
+    </div>
+    <div class="category-item" onclick="filterProducts('ac', this)">
+      <div class="category-icon">💨</div>
+      <span>एसी (AC)</span>
+    </div>
+  </div>
+
+  <!-- Banner Slider -->
+  <div class="banner-container">
+    <div class="banner-slider" id="bannerSlider">
+      <div class="banner-slide"><img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&auto=format&fit=crop&q=60" alt="Banner 1"></div>
+      <div class="banner-slide"><img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&auto=format&fit=crop&q=60" alt="Banner 2"></div>
+      <div class="banner-slide"><img src="https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=800&auto=format&fit=crop&q=60" alt="Banner 3"></div>
+      <div class="banner-slide"><img src="https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=800&auto=format&fit=crop&q=60" alt="Banner 4"></div>
+      <div class="banner-slide"><img src="https://images.unsplash.com/photo-1558442088-75f0a1304d7c?w=800&auto=format&fit=crop&q=60" alt="Banner 5"></div>
+    </div>
+    <div class="slider-dots" id="sliderDots"></div>
+  </div>
+
+  <!-- Main Products List -->
+  <div class="container">
+    <h2 class="section-title" id="section-heading">उत्कृष्ट उत्पादने</h2>
+    <div id="product-list"></div>
+  </div>
+
+  <!-- Admin Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <div class="modal-header"><span>ॲडमिन लॉगिन</span></div>
+      <input type="password" id="adminPassword" class="modal-input" placeholder="पासवर्ड टाका">
+      <button class="modal-btn" onclick="verifyPassword()">लगिन करा</button>
+      <button class="modal-btn close-btn" onclick="closeModals()">रद्द करा / Close</button>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard Modal (Add Products) -->
+  <div class="modal" id="adminDashboardModal">
+    <div class="modal-content">
+      <div class="modal-header"><span>नवीन उत्पादन जोडा (Add Product)</span></div>
+      <input type="text" id="pTitle" class="modal-input" placeholder="उत्पादनाचे नाव (Product Title)">
+      <select id="pCategory" class="modal-select">
+        <option value="tv">टीव्ही (TV)</option>
+        <option value="fridge">फ्रीज (Fridge)</option>
+        <option value="washing">वॉशिंग मशीन (Washing Machine)</option>
+        <option value="ac">एसी (AC)</option>
+      </select>
+      <input type="number" id="pSellingPrice" class="modal-input" placeholder="अपली विक्री किंमत (Selling Price) उदा. 34000">
+      <input type="number" id="pMrp" class="modal-input" placeholder="MRP (Original Price) उदा. 40000">
+      <input type="text" id="pOffer" class="modal-input" placeholder="विशेष ऑफर बॅज (उदा. Special Offer - nako aslyas rikama theva)">
+      <textarea id="pDesc" class="modal-textarea" placeholder="उत्पादनाची माहिती (Description)"></textarea>
+      <input type="text" id="pImg" class="modal-input" placeholder="इमेजची लिंक (Image URL)">
+      <button class="modal-btn" onclick="addNewProduct()">उत्पादन सेव्ह करा (Save Product)</button>
+      <button class="modal-btn close-btn" onclick="बंद करा" onclick="closeModals()">बंद करा (Close)</button>
+    </div>
+  </div>
+
+  <script>
+    const MY_WHATSAPP_NUMBER = "919975312904"; 
+
+    let products = JSON.parse(localStorage.getItem('sai_products')) || [
+      {
+        id: 1,
+        category: 'fridge',
+        title: 'रॉकवेल कमर्शियल डिस्प्ले फ्रिज (350L)',
+        price: 34000,
+        mrp: 40000,
+        offer: '15% OFF',
+        description: 'व्यावसायिक वापरासाठी अतिशय उत्तम 350 लिटर डिस्प्ले फ्रिज. 5 वर्षे कॉम्प्रेसर वॉरंटी.',
+        image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&auto=format&fit=crop&q=60'
+      },
+      {
+        id: 2,
+        category: 'washing',
+        title: 'सॅमसंग 7Kg फ्रंट लोड वॉशिंग मशीन',
+        price: 28500,
+        mrp: '',
+        offer: '',
+        description: 'डिजिटल इन्व्हर्टर तंत्रज्ञानासह हाय-स्पीड ड्रायर आणि विजेची बचत करणारी वॉशिंग मशीन.',
+        image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=500&auto=format&fit=crop&q=60'
+      },
+      {
+        id: 3,
+        category: 'tv',
+        title: 'एलजी 43 इंच 4K अल्ट्रा एचडी स्मार्ट टीव्ही',
+        price: 31990,
+        mrp: 38000,
+        offer: 'विशेष ऑफर',
+        description: '4K Ultra HD रिझोल्यूशन, इन-बिल्ट स्मार्ट ॲप्स आणि पॉवरफुल साउंड आऊटपुट.',
+        image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60'
+      }
+    ];
+
+    function formatINR(amount) {
+      if (!amount) return '';
+      return '₹' + Number(amount).toLocaleString('en-IN');
+    }
+
+    function displayProducts(items) {
+      const listContainer = document.getElementById('product-list');
+      listContainer.innerHTML = '';
+
+      if (items.length === 0) {
+        listContainer.innerHTML = '<p style="text-align:center; padding: 20px; color: #666;">या कॅटेगरीमध्ये उत्पादने उपलब्ध नाहीत.</p>';
+        return;
+      }
+
+      items.forEach(product => {
+        let discPercentText = '';
+        let origPriceFormatted = '';
+        let finalOfferBadge = product.offer ? `<div class="badge">${product.offer}</div>` : '';
+
+        // Auto calculate discount if MRP and Selling Price exist
+        if (product.mrp && product.price && Number(product.mrp) > Number(product.price)) {
+          const disc = Math.round(((product.mrp - product.price) / product.mrp) * 100);
+          discPercentText = `${disc}% off`;
+          origPriceFormatted = formatINR(product.mrp);
+          if (!product.offer) {
+            finalOfferBadge = `<div class="badge">${disc}% OFF</div>`;
+          }
+        }
+
+        const sellingPriceFormatted = formatINR(product.price);
+        const origPriceHTML = origPriceFormatted ? `<span class="original-price">${origPriceFormatted}</span>` : '';
+        const discTextHTML = discPercentText ? `<span class="discount">${discPercentText}</span>` : '';
+
+        const messageText = `नमस्कार साई इलेक्ट्रॉनिक्स,\nमला या वस्तू बद्दल चौकशी करायची आहे:\n\n📌 *उत्पादन:* ${product.title}\n💰 *किंमत:* ${sellingPriceFormatted}\n📝 *माहिती:* ${product.description}`;
+        const encodedMessage = encodeURIComponent(messageText);
+        const whatsappUrl = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodedMessage}`;
+
+        const cardHTML = `
+          <div class="product-card">
+            ${finalOfferBadge}
+            <img src="${product.image}" class="product-img" alt="${product.title}">
+            <div class="product-details">
+              <div class="product-title">${product.title}</div>
+              <div class="price-container">
+                <span class="price">${sellingPriceFormatted}</span>
+                ${origPriceHTML}
+                ${discTextHTML}
+              </div>
+              <div class="description">${product.description}</div>
+              <a href="${whatsappUrl}" class="whatsapp-btn" target="_blank">
+                WhatsApp वर ऑर्डर करा
+              </a>
+            </div>
+          </div>
+        `;
+        listContainer.innerHTML += cardHTML;
+      });
+    }
+
+    function searchProducts() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = products.filter(p => p.title.toLowerCase().includes(query) || p.description.toLowerCase().includes(query));
+      displayProducts(filtered);
+    }
+
+    function filterProducts(category, element) {
+      document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+
+      const heading = document.getElementById('section-heading');
+      
+      if (category === 'all') {
+        heading.innerText = 'उत्कृष्ट उत्पादने';
+        displayProducts(products);
+      } else {
+        const filtered = products.filter(p => p.category === category);
+        heading.innerText = element.querySelector('span').innerText + ' उत्पादने';
+        displayProducts(filtered);
+      }
+    }
+
+    function openAdminModal() {
+      document.getElementById('loginModal').style.display = 'flex';
+    }
+
+    function closeModals() {
+      document.getElementById('loginModal').style.display = 'none';
+      document.getElementById('adminDashboardModal').style.display = 'none';
+      document.getElementById('adminPassword').value = '';
+    }
+
+    function verifyPassword() {
+      const pass = document.getElementById('adminPassword').value;
+      if (pass === '0320') {
+        document.getElementById('loginModal').style.display = 'none';
+        document.getElementById('adminDashboardModal').style.display = 'flex';
+      } else {
+        alert('चुकीचा पासवर्ड! कृपया पुन्हा प्रयत्न करा.');
+      }
+    }
+
+    function addNewProduct() {
+      const title = document.getElementById('pTitle').value;
+      const category = document.getElementById('pCategory').value;
+      const price = document.getElementById('pSellingPrice').value;
+      const mrp = document.getElementById('pMrp').value;
+      const offer = document.getElementById('pOffer').value;
+      const description = document.getElementById('pDesc').value;
+      const image = document.getElementById('pImg').value;
+
+      if(!title || !price || !image) {
+        alert('कृपया उत्पादनाचे नाव, विक्री किंमत आणि इमेज लिंक भरा.');
+        return;
+      }
+
+      const newProd = {
+        id: Date.now(),
+        category: category,
+        title: title,
+        price: Number(price),
+        mrp: mrp ? Number(mrp) : '',
+        offer: offer,
+        description: description,
+        image: image
+      };
+
+      products.unshift(newProd);
+      localStorage.setItem('sai_products', JSON.stringify(products));
+      displayProducts(products);
+      alert('उत्पादन यशस्वीरित्या जोडले गेले आणि आपोआप डिस्काउंट लागू झाला!');
+      closeModals();
+      
+      document.getElementById('pTitle').value = '';
+      document.getElementById('pSellingPrice').value = '';
+      document.getElementById('pMrp').value = '';
+      document.getElementById('pOffer').value = '';
+      document.getElementById('pDesc').value = '';
+      document.getElementById('pImg').value = '';
+    }
+
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.banner-slide');
+    const slider = document.getElementById('bannerSlider');
+    const dotsContainer = document.getElementById('sliderDots');
+
+    slides.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function goToSlide(index) {
+      currentSlide = index;
+      slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach(d => d.classList.remove('active'));
+      dots[currentSlide].classList.add('active');
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      goToSlide(currentSlide);
+    }
+
+    setInterval(nextSlide, 3000);
+
+    displayProducts(products);
+  </script>
+
+</body>
+</html>
