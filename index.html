@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>साई इलेक्ट्रॉनिक - फैजपूर</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #f1f3f6; color: #212121; padding-bottom: 40px; }
+        
+        /* Flipkart Top Blue Header */
+        header { background: #2874f0; color: white; padding: 12px 15px; position: relative; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .logo-area h1 { font-size: 20px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .logo-area p { font-size: 11px; color: #ffeb3b; font-weight: 600; margin-left: 28px; }
+        
+        .admin-login-btn { background: #fff; color: #2874f0; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: 700; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+
+        /* Flipkart Search Bar Style */
+        .search-bar-container { background: #fff; padding: 8px 12px; border-radius: 4px; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 5px; }
+        .search-bar-container i { color: #2874f0; font-size: 16px; }
+        .search-placeholder { color: #878787; font-size: 13px; font-weight: 500; }
+
+        /* Categories Quick Bar */
+        .categories-bar { background: #fff; display: flex; overflow-x: auto; padding: 10px 5px; gap: 15px; border-bottom: 1px solid #e0e0e0; white-space: nowrap; scrollbar-width: none; }
+        .categories-bar::-webkit-scrollbar { display: none; }
+        .cat-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: 600; color: #212121; min-width: 60px; cursor: pointer; }
+        .cat-icon { width: 38px; height: 38px; background: #f0f3f8; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2874f0; font-size: 16px; margin-bottom: 4px; }
+
+        .container { max-width: 1000px; margin: 12px auto; padding: 0 8px; }
+        .section-title { font-size: 16px; font-weight: 700; color: #212121; margin: 12px 5px 8px 5px; }
+
+        /* Admin Panel Form */
+        .admin-panel { background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); border: 2px solid #2874f0; display: none; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+        .admin-header h3 { font-size: 15px; color: #2874f0; }
+        .admin-btns { display: flex; gap: 6px; }
+        
+        .form-group { margin-bottom: 10px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 3px; color: #333; }
+        .form-group input, .form-group textarea { width: 100%; padding: 7px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; outline: none; }
+        .form-row { display: flex; gap: 8px; }
+        .form-row .form-group { flex: 1; }
+        
+        .btn-submit { background: #fb641b; color: white; border: none; padding: 9px; border-radius: 4px; cursor: pointer; font-weight: 700; width: 100%; font-size: 13px; margin-top: 4px; }
+        .btn-cancel { background: #777; color: white; border: none; padding: 9px; border-radius: 4px; cursor: pointer; font-weight: 700; width: 100%; font-size: 13px; margin-top: 4px; display: none; }
+        .btn-logout { background: #e42529; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: 600; }
+        .btn-pass-change { background: #ff9f00; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: 600; }
+
+        /* Flipkart Product Card Grid */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+        .product-card { background: #fff; border-radius: 6px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid #e0e0e0; }
+        
+        .img-container { width: 100%; height: 180px; padding: 10px; display: flex; align-items: center; justify-content: center; background: #fff; position: relative; }
+        .product-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        
+        .discount-badge { position: absolute; top: 8px; left: 8px; background: #388e3c; color: white; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 3px; z-index: 2; }
+        
+        .product-info { padding: 10px 12px; border-top: 1px solid #f0f0f0; flex-grow: 1; }
+        .product-title { font-size: 13px; font-weight: 600; color: #212121; margin-bottom: 5px; line-height: 1.3; height: 34px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        
+        .price-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+        .selling-price { font-size: 16px; font-weight: 700; color: #212121; }
+        .mrp-price { font-size: 12px; color: #878787; text-decoration: line-through; }
+        .off-percent { font-size: 12px; color: #388e3c; font-weight: 700; }
+        
+        .product-desc { font-size: 11px; color: #666; line-height: 1.3; white-space: pre-line; background: #f9f9f9; padding: 5px 7px; border-radius: 3px; margin-top: 4px; }
+
+        .card-actions { padding: 8px 10px 10px 10px; background: #fff; display: flex; flex-direction: column; gap: 5px; }
+        .whatsapp-btn { background-color: #25d366; color: white; border: none; padding: 8px; border-radius: 4px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; text-decoration: none; width: 100%; }
+        
+        .admin-controls { display: none; gap: 5px; margin-top: 3px; }
+        .edit-btn { background: #ff9f00; color: white; border: none; padding: 5px; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: 700; flex: 1; }
+        .delete-btn { background: #e42529; color: white; border: none; padding: 5px; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: 700; flex: 1; }
+
+        footer { background: #172337; color: #878787; text-align: center; padding: 15px 10px; margin-top: 25px; font-size: 11px; line-height: 1.5; }
+        footer strong { color: #fff; }
+    </style>
+</head>
+<body>
+
+    <!-- Flipkart Style Header -->
+    <header>
+        <div class="header-top">
+            <div class="logo-area">
+                <h1><i class="fa-solid fa-bolt" style="color: #ffeb3b;"></i> साई इलेक्ट्रॉनिक</h1>
+                <p>फैजपूर, महाराष्ट्र</p>
+            </div>
+            <button class="admin-login-btn" onclick="toggleAdminLogin()"><i class="fa-solid fa-lock"></i> ॲडमिन</button>
+        </div>
+        <!-- Search Bar Imitation -->
+        <div class="search-bar-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span class="search-placeholder">फ्रीज, टीव्ही, वॉशिंग मशीन शोधा...</span>
+        </div>
+    </header>
+
+    <!-- Categories Quick Bar -->
+    <div class="categories-bar">
+        <div class="cat-item"><div class="cat-icon"><i class="fa-solid fa-snowflake"></i></div>फ्रीज</div>
+        <div class="cat-item"><div class="cat-icon"><i class="fa-solid fa-tv"></i></div>टीव्ही</div>
+        <div class="cat-item"><div class="cat-icon"><i class="fa-solid fa-shirt"></i></div>वॉशिंग मशीन</div>
+        <div class="cat-item"><div class="cat-icon"><i class="fa-solid fa-wind"></i></div>एसी (AC)</div>
+        <div class="cat-item"><div class="cat-icon"><i class="fa-solid fa-blender"></i></div>मिक्सर</div>
+        <div class="cat-item"><div class="cat-icon"><i class="fa-solid fa-store"></i></div>इतर वस्तू</div>
+    </div>
+
+    <main class="container">
+        <!-- Admin Panel -->
+        <div class="admin-panel" id="adminPanel">
+            <div class="admin-header">
+                <h3 id="formTitle"><i class="fa-solid fa-plus-circle"></i> नवीन प्रॉडक्ट जोडा</h3>
+                <div class="admin-btns">
+                    <button class="btn-pass-change" onclick="changeAdminPassword()">पासवर्ड बदला</button>
+                    <button class="btn-logout" onclick="logoutAdmin()">लगआउट</button>
+                </div>
+            </div>
+            <form id="productForm">
+                <input type="hidden" id="editProductId" value="">
+                
+                <div class="form-group">
+                    <label>प्रॉडक्टचे नाव (Product Title):</label>
+                    <input type="text" id="pName" required placeholder="उदा. Rockwell Display Freezer 350L">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>विक्री किंमत / Selling Price (₹):</label>
+                        <input type="number" id="pSellingPrice" required placeholder="उदा. 34000">
+                    </div>
+                    <div class="form-group">
+                        <label>MRP किंमत (₹):</label>
+                        <input type="number" id="pMrpPrice" placeholder="उदा. 40000 (डिस्काउंट % साठी)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>फोटोची थेट लिंक (ImgBB Link):</label>
+                    <input type="text" id="pImg" required placeholder="https://i.ibb.co/xxxxx/photo.jpg">
+                </div>
+                
+                <div class="form-group">
+                    <label>तपशील / वैशिष्ट्ये (Capacity, Warranty, Offer):</label>
+                    <textarea id="pDesc" rows="3" placeholder="Capacity: 350 Litre&#10;Warranty: 5 Years Compressor"></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit" id="submitBtn">प्रॉडक्ट सेव्ह करा</button>
+                <button type="button" class="btn-cancel" id="cancelEditBtn" onclick="resetForm()">रद्द करा</button>
+            </form>
+        </div>
+
+        <div class="section-title">दुकानदाराकडून थेट उत्पादने व ऑफर्स</div>
+        <div class="product-grid" id="productGrid"></div>
+    </main>
+
+    <footer>
+        <p><strong>साई इलेक्ट्रॉनिक, राजकमल कलेक्शन्स जवळ, फैजपूर</strong></p>
+        <p>&copy; 2026 Sai Electronic. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const WHATSAPP_NUMBER = "919975312904"; 
+        const FALLBACK_IMAGE = "https://via.placeholder.com/300x300?text=No+Image+Available";
+
+        function getPassword() {
+            return localStorage.getItem("sai_admin_pass") || "1234";
+        }
+
+        let isAdmin = false;
+
+        const defaultProducts = [
+            {
+                id: 1,
+                name: "रॉकवेल कमर्शियल डिस्प्ले फ्रिज",
+                sellingPrice: 34000,
+                mrpPrice: 40000,
+                image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=500&q=80",
+                desc: "Capacity: 350 Litre\nWarranty: 5 Years Compressor Warranty"
+            },
+            {
+                id: 2,
+                name: "LLOYD 14 KG SEMI WASHING MACHINE",
+                sellingPrice: 23090,
+                mrpPrice: 27990,
+                image: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?auto=format&fit=crop&w=500&q=80",
+                desc: "14 kg capacity\n5 year motor warranty"
+            }
+        ];
+
+        function getProducts() {
+            const saved = localStorage.getItem("sai_products");
+            return saved ? JSON.parse(saved) : defaultProducts;
+        }
+
+        function saveProducts(products) {
+            localStorage.setItem("sai_products", JSON.stringify(products));
+            renderProducts();
+        }
+
+        function calculateDiscount(selling, mrp) {
+            if (!mrp || mrp <= selling) return 0;
+            return Math.round(((mrp - selling) / mrp) * 100);
+        }
+
+        function formatINR(val) {
+            return "₹" + Number(val).toLocaleString('en-IN');
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById("productGrid");
+            grid.innerHTML = "";
+            const products = getProducts();
+
+            products.forEach(product => {
+                let sPrice = Number(product.sellingPrice || product.price || 0);
+                let mPrice = Number(product.mrpPrice || 0);
+                let discountPercent = calculateDiscount(sPrice, mPrice);
+
+                let card = document.createElement("div");
+                card.className = "product-card";
+                card.innerHTML = `
+                    ${discountPercent > 0 ? `<div class="discount-badge">${discountPercent}% OFF</div>` : ''}
+                    <div class="img-container">
+                        <img src="${product.image}" alt="${product.name}" class="product-img" onerror="this.onerror=null;this.src='${FALLBACK_IMAGE}';">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title">${product.name}</div>
+                        <div class="price-row">
+                            <span class="selling-price">${formatINR(sPrice)}</span>
+                            ${mPrice > sPrice ? `<span class="mrp-price">${formatINR(mPrice)}</span>` : ''}
+                            ${discountPercent > 0 ? `<span class="off-percent">${discountPercent}% off</span>` : ''}
+                        </div>
+                        ${product.desc ? `<div class="product-desc">${product.desc}</div>` : ''}
+                    </div>
+                    <div class="card-actions">
+                        <button onclick="orderOnWhatsApp('${product.name}', '${formatINR(sPrice)}')" class="whatsapp-btn">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp वर ऑर्डर करा
+                        </button>
+                        <div class="admin-controls" style="display: ${isAdmin ? 'flex' : 'none'};">
+                            <button class="edit-btn" onclick="editProduct(${product.id})"><i class="fa-solid fa-pen"></i> एडिट</button>
+                            <button class="delete-btn" onclick="deleteProduct(${product.id})"><i class="fa-solid fa-trash"></i> डिलीट</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function orderOnWhatsApp(productName, productPrice) {
+            let custPhone = prompt("तुमचा मोबाईल नंबर टाका (ज्यावरून तुम्ही WhatsApp वापरता):");
+            if (!custPhone) {
+                alert("ऑर्डर करण्यासाठी मोबाईल नंबर देणे आवश्यक आहे!");
+                return;
+            }
+            let whatsappMessage = `नमस्कार साई इलेक्ट्रॉनिक,%0a%0aमला ही वस्तू बुक करायची आहे:%0a*प्रॉडक्ट:* ${productName}%0a*किंमत:* ${productPrice}%0a*माझा मोबाईल नंबर:* ${custPhone}%0a%0aमी दुकानावर येऊन घेणार आहे.`;
+            let whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
+            window.open(whatsappLink, '_blank');
+        }
+
+        function toggleAdminLogin() {
+            if (isAdmin) {
+                document.getElementById("adminPanel").style.display = "block";
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                return;
+            }
+            let pass = prompt("कृपया ॲडमिन पासवर्ड टाका:");
+            if (pass === getPassword()) {
+                isAdmin = true;
+                alert("लॉगिन यशस्वी झाले!");
+                document.getElementById("adminPanel").style.display = "block";
+                renderProducts();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            } else if (pass !== null) {
+                alert("चुकीचा पासवर्ड!");
+            }
+        }
+
+        function changeAdminPassword() {
+            let oldPass = prompt("जुना पासवर्ड टाका:");
+            if (oldPass === getPassword()) {
+                let newPass = prompt("नवीन पासवर्ड टाका:");
+                if (newPass && newPass.trim() !== "") {
+                    localStorage.setItem("sai_admin_pass", newPass.trim());
+                    alert("पासवर्ड बदलला गेला!");
+                } else {
+                    alert("पासवर्ड रिक्त असू शकत नाही.");
+                }
+            } else if (oldPass !== null) {
+                alert("जुना पासवर्ड चुकीचा आहे!");
+            }
+        }
+
+        function logoutAdmin() {
+            isAdmin = false;
+            document.getElementById("adminPanel").style.display = "none";
+            resetForm();
+            renderProducts();
+            alert("लॉगआउट झाले!");
+        }
+
+        document.getElementById("productForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const editId = document.getElementById("editProductId").value;
+            let products = getProducts();
+
+            const pData = {
+                name: document.getElementById("pName").value,
+                sellingPrice: Number(document.getElementById("pSellingPrice").value),
+                mrpPrice: Number(document.getElementById("pMrpPrice").value || 0),
+                image: document.getElementById("pImg").value,
+                desc: document.getElementById("pDesc").value
+            };
+
+            if (editId) {
+                products = products.map(p => p.id == editId ? { ...p, ...pData } : p);
+                alert("प्रॉडक्ट अपडेट झाले!");
+            } else {
+                pData.id = Date.now();
+                products.push(pData);
+                alert("नवीन प्रॉडक्ट जोडले गेले!");
+            }
+
+            saveProducts(products);
+            resetForm();
+        });
+
+        function editProduct(id) {
+            const products = getProducts();
+            const p = products.find(item => item.id == id);
+            if (!p) return;
+
+            document.getElementById("editProductId").value = p.id;
+            document.getElementById("pName").value = p.name;
+            document.getElementById("pSellingPrice").value = p.sellingPrice || p.price || "";
+            document.getElementById("pMrpPrice").value = p.mrpPrice || "";
+            document.getElementById("pImg").value = p.image;
+            document.getElementById("pDesc").value = p.desc || "";
+
+            document.getElementById("formTitle").innerHTML = '<i class="fa-solid fa-pen-to-square"></i> प्रॉडक्ट एडिट करा';
+            document.getElementById("submitBtn").innerText = "अपडेट करा (Update)";
+            document.getElementById("cancelEditBtn").style.display = "block";
+
+            document.getElementById("adminPanel").style.display = "block";
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function resetForm() {
+            document.getElementById("editProductId").value = "";
+            document.getElementById("productForm").reset();
+            document.getElementById("formTitle").innerHTML = '<i class="fa-solid fa-plus-circle"></i> नवीन प्रॉडक्ट जोडा';
+            document.getElementById("submitBtn").innerText = "प्रॉडक्ट सेव्ह करा";
+            document.getElementById("cancelEditBtn").style.display = "none";
+        }
+
+        function deleteProduct(id) {
+            if (confirm("तुम्हाला खरोखर हे प्रॉडक्ट डिलीट करायचे आहे का?")) {
+                let products = getProducts().filter(p => p.id !== id);
+                saveProducts(products);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", renderProducts);
+    </script>
+</body>
+</html>
