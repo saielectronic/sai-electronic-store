@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="mr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SAI ELECTRONICS Faizpur - Electronics and Home Appliances online store">
+<title>SAI ELECTRONICS | Faizpur Online Store</title>
+<style>
+:root{--orange:#ff6500;--orange2:#ff8a00;--ink:#172033;--cream:#fff3e2;--blue:#0754b8}
+*{box-sizing:border-box}body{margin:0;background:#f7f7f7;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+header{background:linear-gradient(110deg,#ff4d00,#ff8b00);color:#fff;padding:16px 4%;box-shadow:0 3px 12px #0002;position:sticky;top:0;z-index:5}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:900;font-size:clamp(22px,4vw,38px);letter-spacing:.3px}.sub{font-weight:700;letter-spacing:3px;font-size:12px;margin-top:3px}.tag{font-family:Georgia,serif;color:#fff06b;font-style:italic;margin-top:5px}.cartbtn,.adminbtn{border:0;border-radius:14px;background:#fff;color:#1d2635;font-weight:800;padding:14px 18px;font-size:17px;cursor:pointer}
+.searchrow{display:flex;margin:15px 0 9px;background:white;border:4px solid #ffb15d;border-radius:40px;overflow:hidden}.searchrow input{border:0;outline:0;padding:14px 18px;font-size:17px;flex:1;min-width:0}.searchrow button{border:0;background:#f65a00;color:white;font-size:20px;padding:0 22px}.location{font-weight:700;font-size:14px}
+main{max-width:1200px;margin:auto;padding:14px}
+.hero{border-radius:22px;overflow:hidden;margin:8px 0 16px;position:relative;background:#401052;min-height:150px}
+.hero img{width:100%;height:clamp(160px,34vw,340px);object-fit:cover;display:block}.dots{text-align:center;color:#ff6500;letter-spacing:8px;font-size:23px;margin:-2px 0 14px}
+.benefits{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-radius:22px;padding:17px 8px;box-shadow:0 3px 12px #0002;margin-bottom:20px}
+.benefit{display:flex;align-items:center;justify-content:center;gap:9px;border-right:1px solid #ddd;font-weight:700;font-size:clamp(11px,2vw,17px);text-align:left}.benefit:last-child{border:0}.benefit b{font-size:27px}
+.sectionhead{background:linear-gradient(90deg,#ff5b00,#ff8a00);color:white;border-radius:18px 18px 0 0;padding:13px 18px;font-size:clamp(18px,3vw,28px);font-weight:900;display:flex;justify-content:space-between;align-items:center}
+.categories{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;background:#fff;padding:14px;border-radius:0 0 18px 18px}
+.cat{border:1px solid #f0dfca;background:linear-gradient(#fff9f0,#fff0dc);border-radius:20px;padding:9px 5px 12px;min-width:0;cursor:pointer;box-shadow:0 3px 7px #0001;text-align:center;color:#111;font-weight:800;font-size:clamp(11px,1.7vw,16px)}
+.cat img{width:100%;height:clamp(65px,12vw,130px);object-fit:contain;display:block;margin-bottom:6px}.cat:active{transform:scale(.98)}
+.offer{margin:18px 0;border-radius:20px;overflow:hidden;background:linear-gradient(90deg,#ffcc00,#ff7800);color:#a90000;text-align:center;padding:24px 10px;font-size:clamp(20px,4vw,36px);font-weight:1000;text-shadow:1px 1px #fff;min-height:90px;background-position:center;background-repeat:no-repeat;background-size:cover}
+.offerTiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}.offerTile{border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 2px 9px #0002;cursor:pointer;text-align:center;font-weight:800}.offerTile img{width:100%;height:clamp(95px,20vw,190px);object-fit:cover;display:block}.offerTile span{display:block;padding:9px 4px}
+.products-head{display:flex;justify-content:space-between;align-items:center;margin:22px 3px 12px}.products-head h2{margin:0}.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.product{background:#fff;border-radius:16px;padding:10px;box-shadow:0 2px 9px #0001}.product img{width:100%;height:145px;object-fit:contain;background:#fff8ef;border-radius:12px}.product h3{font-size:15px;margin:8px 0}.price{font-weight:900;font-size:19px}.mrp{text-decoration:line-through;color:#888;font-size:13px}.small{font-size:12px;color:#666}.product button,.primary{background:var(--orange);color:white;border:0;border-radius:10px;padding:10px 12px;font-weight:800;cursor:pointer;margin-top:8px}
+nav{position:sticky;bottom:0;background:#fff;display:flex;justify-content:space-around;padding:10px 3px;border-top:1px solid #ddd;z-index:4}nav button{border:0;background:none;font-weight:700;color:#333;font-size:14px;cursor:pointer}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:10;align-items:center;justify-content:center;padding:14px}.panel{background:#fff;border-radius:18px;padding:20px;width:min(600px,100%);max-height:90vh;overflow:auto}.panel h2{margin-top:0}.panel input,.panel textarea,.panel select{width:100%;padding:11px;margin:6px 0 12px;border:1px solid #bbb;border-radius:9px;font-size:15px}.panel label{font-weight:700;font-size:14px}.rowbtn{display:flex;gap:8px;flex-wrap:wrap}.secondary{background:#eee;color:#222;border:0;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}.hidden{display:none!important}.empty{text-align:center;padding:28px;color:#666}
+@media(max-width:650px){.offerTiles{grid-template-columns:repeat(2,minmax(0,1fr))}header{padding:13px 4%}.categories{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;padding:10px}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.benefits{padding:12px 3px}.benefit{gap:4px;flex-direction:column;text-align:center}.benefit b{font-size:22px}.product img{height:120px}.brand{font-size:23px}.cartbtn{padding:11px;font-size:14px}}
+</style></head>
+<body>
+<header>
+ <div class="top"><div><div class="brand">🛒 SAI ELECTRONICS</div><div class="sub">FAIZPUR • ONLINE STORE</div><div class="tag">Shop Smart... Live Better...</div></div><button class="cartbtn" onclick="openCart()">🛒 Cart <span id="cartCount">0</span></button></div>
+ <div class="searchrow"><input id="search" placeholder="⌕  Search for Products / प्रॉडक्ट शोधा" oninput="renderProducts()"><button onclick="renderProducts()">⌕</button></div>
+ <div class="location">📍 Rajkamal Collection जवळ, Faizpur, Maharashtra</div>
+</header>
+<main>
+ <div class="hero"><img id="heroImg" alt="SAI Electronics Special Offer Banner" src="https://images.unsplash.com/photo-1607082349566-11b6f2a7d5e0?auto=format&fit=crop&w=1400&q=85"></div>
+ <div class="dots">● ● ● ●</div>
+ <div class="benefits">
+  <div class="benefit"><b>🚚</b><span>Free Delivery<br>All India</span></div><div class="benefit"><b>🛡️</b><span>Easy Returns<br>& Exchange</span></div><div class="benefit"><b>🟠</b><span>Best Prices<br>Guaranteed</span></div><div class="benefit"><b>🎧</b><span>24×7<br>Support</span></div>
+ </div>
+ <div class="sectionhead">▤ &nbsp; Shop by Category <span style="font-size:15px">View All →</span></div>
+ <div class="categories" id="categories"></div>
+ <div class="offer" id="offerBanner">🎁 BUMPER DHAMAKA OFFER • SPECIAL OFFER • UP TO 60% OFF 🎁</div>
+ <div class="offerTiles" id="offerTiles"></div>
+ <div class="products-head"><h2 id="productTitle">🔥 Best Deals</h2><button class="secondary" onclick="showAll()">View All →</button></div>
+ <div class="products" id="products"></div>
+</main>
+<nav><button onclick="showAll()">🏠<br>Home</button><button onclick="document.querySelector('.sectionhead').scrollIntoView({behavior:'smooth'})">▦<br>Categories</button><button onclick="document.getElementById('offerBanner').scrollIntoView({behavior:'smooth'})">🎁<br>Offers</button><button onclick="adminLogin()">👤<br>Admin</button><button onclick="openCart()">🛒<br>Cart</button></nav>
+
+<div class="modal" id="adminModal"><div class="panel"><h2>Admin Panel</h2><div id="loginBox"><label>Admin PIN</label><input id="pin" type="password" inputmode="numeric" placeholder="Enter PIN"><button class="primary" onclick="login()">Login</button><button class="secondary" onclick="closeModal('adminModal')">Close</button></div>
+<div id="adminBox" class="hidden">
+ <h3>वेगवेगळे Banner / Offer फोटो बदला</h3>
+ <label>Home Main Banner फोटो</label><input type="file" accept="image/*" onchange="uploadImage(event,'hero')">
+ <label>Bumper Dhamaka Offer फोटो</label><input type="file" accept="image/*" onchange="uploadImage(event,'bumper')">
+ <label>Diwali / Special Offer फोटो</label><input type="file" accept="image/*" onchange="uploadImage(event,'special')">
+ <label>Fridge Offer फोटो</label><input type="file" accept="image/*" onchange="uploadImage(event,'fridge')">
+ <label>Washing Machine Offer फोटो</label><input type="file" accept="image/*" onchange="uploadImage(event,'washing')">
+ <label>LED / TV Offer फोटो</label><input type="file" accept="image/*" onchange="uploadImage(event,'led')">
+ <label>Offer चे नाव / मजकूर</label><input id="offerText" placeholder="Diwali Dhamaka Offer">
+ <button class="primary" onclick="saveOffer()">सर्व फोटो आणि Offer Save करा</button><p class="small">प्रत्येक फोटो वेगळा निवडा. फोटो बदलण्यासाठी पुन्हा नवीन फोटो निवडून Save करा.</p><hr>
+ <h3>Category photo बदला</h3><select id="catSelect"></select><input type="file" accept="image/*" onchange="uploadImage(event,'category')"><button class="primary" onclick="saveCategoryPhoto()">Save Category Photo</button><hr>
+ <h3>Product Add / Edit</h3><input id="pname" placeholder="Product name"><input id="pcat" placeholder="Category (TV, Fridge...)"><input id="pmrp" type="number" placeholder="MRP ₹"><input id="psell" type="number" placeholder="Selling Price ₹"><input id="pdesc" placeholder="Product details"><label>Product photo</label><input id="pimage" type="file" accept="image/*"><input id="editId" type="hidden"><button class="primary" onclick="saveProduct()">Save Product</button><div id="adminProducts"></div>
+ <hr><button class="secondary" onclick="logout()">Logout</button>
+</div></div></div>
+<div class="modal" id="cartModal"><div class="panel"><h2>🛒 Your Cart</h2><div id="cartItems"></div><p id="cartTotal" style="font-weight:900"></p><h3>Customer details</h3><input id="custName" placeholder="Your name"><input id="custPhone" placeholder="Mobile number"><textarea id="custAddress" placeholder="Delivery address"></textarea><button class="primary" onclick="placeOrder()">Place Order on WhatsApp</button><button class="secondary" onclick="closeModal('cartModal')">Continue Shopping</button></div></div>
+<script>
+const WA_NUMBER='919975312904', ADMIN_PIN='0320';
+const defaultCats=[
+ ['Television','📺'],['Washing Machine','🧺'],['Fridge','🧊'],['AC','❄️'],['Fans','🌀'],['Microwave','♨️'],['Kitchen','🍳'],['Laptop','💻'],['Mobiles','📱'],['Kitchen Appliances','🥤'],['Home Appliances','🧹'],['Stabilizers','⚡']
+];
+let cats=JSON.parse(localStorage.getItem('saiCats')||'null')||defaultCats.map(x=>({name:x[0],emoji:x[1],image:''}));
+let products=JSON.parse(localStorage.getItem('saiProducts')||'[]');
+let cart=JSON.parse(localStorage.getItem('saiCart')||'[]'), selectedCat='', uploaded={};
+function save(){localStorage.setItem('saiCats',JSON.stringify(cats));localStorage.setItem('saiProducts',JSON.stringify(products));localStorage.setItem('saiCart',JSON.stringify(cart))}
+function imageFor(c){return c.image||''}
+function renderCats(){document.getElementById('categories').innerHTML=cats.map((c,i)=>`<button class="cat" onclick="filterCat('${esc(c.name)}')">${c.image?`<img src="${c.image}">`:`<div style="height:clamp(65px,12vw,130px);display:grid;place-items:center;font-size:clamp(42px,8vw,76px)">${c.emoji}</div>`}<span>${c.name}</span></button>`).join('');document.getElementById('catSelect').innerHTML=cats.map(c=>`<option>${c.name}</option>`).join('')}
+function esc(s){return String(s).replaceAll('&','&amp;').replaceAll("'","&#39;").replaceAll('"','&quot;').replaceAll('<','&lt;')}
+function filterCat(c){selectedCat=c;document.getElementById('productTitle').textContent='🛍️ '+c;renderProducts();document.getElementById('productTitle').scrollIntoView({behavior:'smooth'})}
+function showAll(){selectedCat='';document.getElementById('productTitle').textContent='🔥 Best Deals';renderProducts()}
+function renderProducts(){let q=document.getElementById('search').value.toLowerCase();let list=products.filter(p=>(!selectedCat||p.cat.toLowerCase()===selectedCat.toLowerCase())&&(!q||(p.name+' '+p.cat+' '+p.desc).toLowerCase().includes(q)));document.getElementById('products').innerHTML=list.length?list.map(p=>`<div class="product"><img src="${p.image||'https://placehold.co/500x350?text=SAI+ELECTRONICS'}"><h3>${esc(p.name)}</h3><div class="price">₹${Number(p.sell).toLocaleString('en-IN')}</div><div class="mrp">MRP ₹${Number(p.mrp).toLocaleString('en-IN')}</div><div class="small">${esc(p.desc||'')}</div><button onclick="addCart('${p.id}')">Add to Cart</button></div>`).join(''):'<div class="empty">या category मध्ये products लवकरच उपलब्ध होतील. Admin मधून product add करा.</div>'}
+function addCart(id){let p=products.find(x=>x.id===id);if(!p)return;let x=cart.find(x=>x.id===id);if(x)x.qty++;else cart.push({...p,qty:1});save();updateCart();alert('Product cart मध्ये add झाला!')}
+function updateCart(){document.getElementById('cartCount').textContent=cart.reduce((a,b)=>a+b.qty,0)}
+function openCart(){document.getElementById('cartItems').innerHTML=cart.length?cart.map(p=>`<p>${esc(p.name)} × ${p.qty} — ₹${(p.sell*p.qty).toLocaleString('en-IN')} <button class="secondary" onclick="removeCart('${p.id}')">Remove</button></p>`).join(''):'<p>Cart रिकामी आहे.</p>';document.getElementById('cartTotal').textContent='Total: ₹'+cart.reduce((a,b)=>a+b.sell*b.qty,0).toLocaleString('en-IN');document.getElementById('cartModal').style.display='flex'}
+function removeCart(id){cart=cart.filter(p=>p.id!==id);save();openCart();updateCart()}
+function placeOrder(){if(!cart.length)return alert('Cart रिकामी आहे');let n=document.getElementById('custName').value.trim(),ph=document.getElementById('custPhone').value.trim(),ad=document.getElementById('custAddress').value.trim();if(!n||!ph||!ad)return alert('कृपया नाव, मोबाईल आणि पत्ता भरा');let lines=cart.map(p=>`${p.name} x ${p.qty} = Rs.${p.sell*p.qty}`).join('%0A');let msg=`SAI ELECTRONICS ORDER%0AName: ${encodeURIComponent(n)}%0AMobile: ${encodeURIComponent(ph)}%0AAddress: ${encodeURIComponent(ad)}%0AProducts:%0A${lines}%0ATotal: Rs.${cart.reduce((a,b)=>a+b.sell*b.qty,0)}`;window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`,'_blank')}
+function adminLogin(){document.getElementById('adminModal').style.display='flex'}
+function login(){if(document.getElementById('pin').value!==ADMIN_PIN)return alert('Wrong PIN');document.getElementById('loginBox').classList.add('hidden');document.getElementById('adminBox').classList.remove('hidden');document.getElementById('offerText').value=document.getElementById('offerBanner').textContent;renderAdmin()}
+function logout(){document.getElementById('loginBox').classList.remove('hidden');document.getElementById('adminBox').classList.add('hidden');document.getElementById('pin').value='';closeModal('adminModal')}
+function closeModal(id){document.getElementById(id).style.display='none'}
+function uploadImage(e,kind){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>uploaded[kind]=r.result;r.readAsDataURL(f)}
+function saveOffer(){
+ const text=document.getElementById('offerText').value||'🎁 BUMPER DHAMAKA OFFER • SPECIAL OFFER • UP TO 60% OFF 🎁';
+ document.getElementById('offerBanner').textContent=text;localStorage.setItem('saiOffer',text);
+ ['hero','bumper','special','fridge','washing','led'].forEach(k=>{if(uploaded[k])localStorage.setItem('saiPhoto_'+k,uploaded[k])});
+ if(uploaded.hero)document.getElementById('heroImg').src=uploaded.hero;
+ const bumper=localStorage.getItem('saiPhoto_bumper');
+ if(bumper){document.getElementById('offerBanner').style.backgroundImage=`url(${bumper})`;document.getElementById('offerBanner').style.backgroundSize='cover';}
+ renderOfferTiles();uploaded={};alert('वेगवेगळे Banner आणि Offer फोटो save झाले');
+}
+function renderOfferTiles(){
+ const defs=[['fridge','🧊 Fridge Offer'],['washing','🧺 Washing Machine Offer'],['led','📺 LED / TV Offer'],['special','🎉 Special Offer']];
+ document.getElementById('offerTiles').innerHTML=defs.map(([key,label])=>{const src=localStorage.getItem('saiPhoto_'+key);return src?`<div class="offerTile"><img src="${src}" alt="${label}"><span>${label}</span></div>`:''}).join('');
+}
+function saveCategoryPhoto(){let c=cats.find(x=>x.name===document.getElementById('catSelect').value);if(!c||!uploaded.category)return alert('Category निवडा आणि photo upload करा');c.image=uploaded.category;save();renderCats();uploaded.category=null;alert('Category photo बदलला')}
+function saveProduct(){let name=document.getElementById('pname').value.trim(),cat=document.getElementById('pcat').value.trim(),mrp=Number(document.getElementById('pmrp').value),sell=Number(document.getElementById('psell').value),desc=document.getElementById('pdesc').value,id=document.getElementById('editId').value,file=document.getElementById('pimage').files[0];if(!name||!cat||!mrp||!sell)return alert('Product name, category, MRP आणि selling price भरा');let old=products.find(p=>p.id===id);let finish=img=>{let p={id:id||String(Date.now()),name,cat,mrp,sell,desc,image:img||old?.image||''};if(old)products=products.map(x=>x.id===id?p:x);else products.unshift(p);save();renderProducts();renderAdmin();['pname','pcat','pmrp','psell','pdesc','editId'].forEach(k=>document.getElementById(k).value='');document.getElementById('pimage').value='';alert('Product save झाला')};if(file){let r=new FileReader();r.onload=()=>finish(r.result);r.readAsDataURL(file)}else finish('')}
+function renderAdmin(){document.getElementById('adminProducts').innerHTML='<h3>Products Edit / Delete</h3>'+products.map(p=>`<p>${esc(p.name)} — ₹${p.sell} <button class="secondary" onclick="editProduct('${p.id}')">Edit</button> <button class="secondary" onclick="deleteProduct('${p.id}')">Delete</button></p>`).join('')}
+function editProduct(id){let p=products.find(x=>x.id===id);['pname','pcat','pmrp','psell','pdesc','editId'].forEach((k,i)=>document.getElementById(k).value=[p.name,p.cat,p.mrp,p.sell,p.desc,p.id][i]);document.getElementById('pname').scrollIntoView({behavior:'smooth'})}
+function deleteProduct(id){if(confirm('हा product delete करायचा?')){products=products.filter(p=>p.id!==id);save();renderProducts();renderAdmin()}}
+function init(){renderCats();renderProducts();updateCart();let h=localStorage.getItem('saiPhoto_hero')||localStorage.getItem('saiHero');if(h)document.getElementById('heroImg').src=h;let o=localStorage.getItem('saiOffer');if(o)document.getElementById('offerBanner').textContent=o;let b=localStorage.getItem('saiPhoto_bumper');if(b){document.getElementById('offerBanner').style.backgroundImage=`url(${b})`;document.getElementById('offerBanner').style.backgroundSize='cover'}renderOfferTiles()}
+init();
+</script></body></html>
