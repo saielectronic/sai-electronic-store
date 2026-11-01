@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sai Electronic - Faizpur</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: #f1f3f6; padding-bottom: 20px; }
+
+    /* Header */
+    .header { background: #2874f0; color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .header h1 { font-size: 18px; font-weight: bold; }
+    .admin-btn { background: #fff; color: #2874f0; border: none; padding: 5px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 13px; }
+
+    /* Search Bar */
+    .search-container { padding: 10px 15px; background: #2874f0; }
+    .search-input { width: 100%; padding: 10px 15px; border-radius: 8px; border: none; outline: none; font-size: 14px; }
+
+    /* Flipkart Style Categories Icon Grid */
+    .categories { display: flex; gap: 12px; overflow-x: auto; padding: 12px 15px; background: white; border-bottom: 1px solid #e0e0e0; scrollbar-width: none; }
+    .categories::-webkit-scrollbar { display: none; }
+    .category-item { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 65px; text-align: center; font-size: 12px; color: #333; font-weight: 500; }
+    .category-icon { width: 48px; height: 48px; border-radius: 50%; background: #e8f0fe; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; font-size: 22px; transition: 0.2s; }
+    .category-item.active .category-icon { background: #2874f0; color: white; }
+    .category-item.active span { color: #2874f0; font-weight: bold; }
+
+    /* Banner Slider (Flipkart Banner) */
+    .banner-container { width: 100%; overflow: hidden; position: relative; background: #fff; margin-bottom: 12px; }
+    .banner-slider { display: flex; transition: transform 0.5s ease-in-out; width: 100%; }
+    .banner-slide { min-width: 100%; box-sizing: border-box; }
+    .banner-slide img { width: 100%; height: 180px; object-fit: cover; display: block; }
+
+    /* Slider Dots */
+    .slider-dots { display: flex; justify-content: center; margin-top: -20px; position: relative; z-index: 5; padding-bottom: 8px; }
+    .dot { width: 8px; height: 8px; background: rgba(255, 255, 255, 0.6); border-radius: 50%; margin: 0 4px; cursor: pointer; }
+    .dot.active { background: #2874f0; width: 18px; border-radius: 10px; }
+
+    /* Product Section */
+    .container { padding: 0 12px; max-width: 600px; margin: 0 auto; }
+    .section-title { font-size: 16px; font-weight: bold; margin: 15px 0 10px 0; color: #111; }
+
+    /* Product Card */
+    .product-card { background: white; border-radius: 8px; overflow: hidden; margin-bottom: 15px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); position: relative; border: 1px solid #e0e0e0; }
+    .badge { position: absolute; top: 10px; left: 10px; background: #388e3c; color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; z-index: 2; }
+    .product-img { width: 100%; height: 200px; object-fit: contain; background: #fff; padding: 10px; }
+    .product-details { padding: 12px; border-top: 1px solid #f0f0f0; }
+    .product-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: #212121; }
+    .price-container { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .price { font-size: 17px; font-weight: bold; color: #212121; }
+    .original-price { text-decoration: line-through; color: #878787; font-size: 13px; }
+    .discount { color: #388e3c; font-weight: bold; font-size: 13px; }
+    .description { font-size: 12px; color: #666; margin-bottom: 12px; background: #f9f9f9; padding: 8px; border-radius: 4px; line-height: 1.4; }
+    .whatsapp-btn { width: 100%; background: #25d366; color: white; border: none; padding: 10px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>⚡ साई इलेक्ट्रॉनिक्स</h1>
+    <button class="admin-btn">ॲडमिन</button>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <input type="text" class="search-input" placeholder="फ्रीज, टीव्ही, वॉशिंग मशीन शोधा...">
+  </div>
+
+  <!-- Category List -->
+  <div class="categories">
+    <div class="category-item active" onclick="filterProducts('all', this)">
+      <div class="category-icon">🏠</div>
+      <span>सर्व</span>
+    </div>
+    <div class="category-item" onclick="filterProducts('tv', this)">
+      <div class="category-icon">📺</div>
+      <span>टीव्ही</span>
+    </div>
+    <div class="category-item" onclick="filterProducts('fridge', this)">
+      <div class="category-icon">❄️</div>
+      <span>फ्रीज</span>
+    </div>
+    <div class="category-item" onclick="filterProducts('washing', this)">
+      <div class="category-icon">🧺</div>
+      <span>वॉशिंग मशीन</span>
+    </div>
+    <div class="category-item" onclick="filterProducts('ac', this)">
+      <div class="category-icon">💨</div>
+      <span>एसी (AC)</span>
+    </div>
+  </div>
+
+  <!-- Flipkart Style Banner Slider -->
+  <div class="banner-container">
+    <div class="banner-slider" id="bannerSlider">
+      <div class="banner-slide">
+        <!-- Banner 1 Chi Image Link ithe taka -->
+        <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=800&auto=format&fit=crop&q=60" alt="Special Offer Banner">
+      </div>
+      <div class="banner-slide">
+        <!-- Banner 2 Chi Image Link ithe taka -->
+        <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&auto=format&fit=crop&q=60" alt="Washing Machine Banner">
+      </div>
+      <div class="banner-slide">
+        <!-- Banner 3 Chi Image Link ithe taka -->
+        <img src="https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=800&auto=format&fit=crop&q=60" alt="Refrigerator Offer">
+      </div>
+    </div>
+    <div class="slider-dots" id="sliderDots"></div>
+  </div>
+
+  <!-- Main Products List -->
+  <div class="container">
+    <h2 class="section-title" id="section-heading">उत्कृष्ट उत्पादने</h2>
+    <div id="product-list"></div>
+  </div>
+
+  <script>
+    // Tumcha WhatsApp Number ithe taka (With Country Code 91)
+    const MY_WHATSAPP_NUMBER = "919876543210"; 
+
+    // Product List Data
+    const products = [
+      {
+        id: 1,
+        category: 'fridge',
+        title: 'रॉकवेल कमर्शियल डिस्प्ले फ्रिज (350L)',
+        price: '₹34,000',
+        originalPrice: '₹40,000',
+        discount: '15% off',
+        offer: '15% OFF', // Discount tag dakhavnyasathi text, nako aslyas "" thawa
+        description: 'व्यावसायिक वापरासाठी अतिशय उत्तम 350 लिटर डिस्प्ले फ्रिज. 5 वर्षे कॉम्प्रेसर वॉरंटी.',
+        image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&auto=format&fit=crop&q=60'
+      },
+      {
+        id: 2,
+        category: 'washing',
+        title: 'सॅमसंग 7Kg फ्रंट लोड वॉशिंग मशीन',
+        price: '₹28,500',
+        originalPrice: '',
+        discount: '',
+        offer: '', // Tag Dakhavnar Nahi
+        description: 'डिजिटल इन्व्हर्टर तंत्रज्ञानासह हाय-स्पीड ड्रायर आणि विजेची बचत करणारी वॉशिंग मशीन.',
+        image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=500&auto=format&fit=crop&q=60'
+      },
+      {
+        id: 3,
+        category: 'tv',
+        title: 'एलजी 43 इंच 4K अल्ट्रा एचडी स्मार्ट टीव्ही',
+        price: '₹31,990',
+        originalPrice: '₹38,000',
+        discount: '15% off',
+        offer: 'Dhamaka Offer',
+        description: '4K Ultra HD रिझोल्यूशन, इन-बिल्ट स्मार्ट ॲप्स आणि पॉवरफुल साउंड आऊटपुट.',
+        image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=500&auto=format&fit=crop&q=60'
+      }
+    ];
+
+    // Function to render products
+    function displayProducts(items) {
+      const listContainer = document.getElementById('product-list');
+      listContainer.innerHTML = '';
+
+      if (items.length === 0) {
+        listContainer.innerHTML = '<p style="text-align:center; padding: 20px; color: #666;">या कॅटेगरीमध्ये उत्पादने उपलब्ध नाहीत.</p>';
+        return;
+      }
+
+      items.forEach(product => {
+        const offerBadge = product.offer ? `<div class="badge">${product.offer}</div>` : '';
+        const origPrice = product.originalPrice ? `<span class="original-price">${product.originalPrice}</span>` : '';
+        const discText = product.discount ? `<span class="discount">${product.discount}</span>` : '';
+
+        // WhatsApp Message Format
+        const messageText = `नमस्कार साई इलेक्ट्रॉनिक्स, मला या वस्तू बद्दल माहिती हवी आहे:\n\n📌 *उत्पादन:* ${product.title}\n💰 *किंमत:* ${product.price}\n📝 *वर्णन:* ${product.description}`;
+        const encodedMessage = encodeURIComponent(messageText);
+        const whatsappUrl = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodedMessage}`;
+
+        const cardHTML = `
+          <div class="product-card">
+            ${offerBadge}
+            <img src="${product.image}" class="product-img" alt="${product.title}">
+            <div class="product-details">
+              <div class="product-title">${product.title}</div>
+              <div class="price-container">
+                <span class="price">${product.price}</span>
+                ${origPrice}
+                ${discText}
+              </div>
+              <div class="description">${product.description}</div>
+              <a href="${whatsappUrl}" class="whatsapp-btn" target="_blank">
+                WhatsApp वर ऑर्डर करा
+              </a>
+            </div>
+          </div>
+        `;
+        listContainer.innerHTML += cardHTML;
+      });
+    }
+
+    // Category Filter Logic
+    function filterProducts(category, element) {
+      document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+
+      const heading = document.getElementById('section-heading');
+      
+      if (category === 'all') {
+        heading.innerText = 'उत्कृष्ट उत्पादने';
+        displayProducts(products);
+      } else {
+        const filtered = products.filter(p => p.category === category);
+        heading.innerText = element.querySelector('span').innerText + ' उत्पादने';
+        displayProducts(filtered);
+      }
+    }
+
+    // Banner Slider Auto Play Logic
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.banner-slide');
+    const slider = document.getElementById('bannerSlider');
+    const dotsContainer = document.getElementById('sliderDots');
+
+    // Create Dots
+    slides.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function goToSlide(index) {
+      currentSlide = index;
+      slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach(d => d.classList.remove('active'));
+      dots[currentSlide].classList.add('active');
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      goToSlide(currentSlide);
+    }
+
+    // Auto Slide Every 3 Seconds
+    setInterval(nextSlide, 3000);
+
+    // Initial Display
+    displayProducts(products);
+  </script>
+
+</body>
+</html>
