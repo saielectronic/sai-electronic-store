@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAI ELECTRONICS | Flipkart Style Online Store</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF7600',
+                            darkOrange: '#E65100',
+                            yellow: '#FFF9F0',
+                            navy: '#2024F0',
+                            lightBg: '#F1F3F6',
+                            bajaj: '#00369F',
+                            tvs: '#AD2F2F'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #FF7600; border-radius: 4px; }
+        .modal-active { display: flex !important; }
+        .hidden-sl { display: none !important; }
+        .active-thumb { border-color: #FF7600; }
+    </style>
+</head>
+<body class="bg-brand-lightBg text-gray-800 flex flex-col min-h-screen pb-16 md:pb-0 font-sans">
+
+    <!-- TOP FLIPKART STYLE HEADER -->
+    <header class="bg-brand-orange text-white sticky top-0 z-40 shadow-md">
+        <!-- Main Top Bar -->
+        <div class="max-w-7xl mx-auto px-3 py-2 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <div class="bg-white text-brand-orange font-black px-2 py-0.5 rounded text-lg tracking-tighter italic shadow-sm">SAI</div>
+                <div>
+                    <h1 class="text-base font-bold leading-tight tracking-wide">SAI ELECTRONICS</h1>
+                    <p class="text-[10px] text-yellow-100 flex items-center gap-1">
+                        <i class="fa-solid fa-location-dot text-yellow-300"></i> फैजपूर (अठवडे बाजार)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-xl mx-2">
+                <div class="relative">
+                    <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Search TVs, Fridges, Washing Machines..." class="w-full bg-white text-gray-800 text-xs sm:text-sm rounded px-3 py-1.5 pl-8 focus:outline-none shadow-inner">
+                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-gray-400 text-xs"></i>
+                </div>
+            </div>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-3">
+                <button onclick="openAdminLogin()" class="bg-white text-brand-orange px-2.5 py-1 rounded text-xs font-bold shadow hover:bg-yellow-50 flex items-center gap-1">
+                    <i class="fa-solid fa-lock text-[10px]"></i> <span class="hidden sm:inline">Admin</span>
+                </button>
+                <div class="relative cursor-pointer" onclick="openCart()">
+                    <i class="fa-solid fa-cart-shopping text-xl"></i>
+                    <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sub Navigation Categories -->
+        <div class="bg-white text-gray-700 shadow-sm border-t border-gray-200 overflow-x-auto">
+            <div class="max-w-7xl mx-auto px-2 flex items-center gap-6 text-xs font-medium py-2 whitespace-nowrap">
+                <button onclick="filterCategory('All')" class="hover:text-brand-orange transition flex items-center gap-1 font-bold text-brand-orange"><i class="fa-solid fa-house"></i> All Items</button>
+                <button onclick="filterCategory('LED TV')" class="hover:text-brand-orange transition flex items-center gap-1"><i class="fa-solid fa-tv"></i> LED TVs</button>
+                <button onclick="filterCategory('Refrigerator')" class="hover:text-brand-orange transition flex items-center gap-1"><i class="fa-solid fa-snowflake"></i> Refrigerators</button>
+                <button onclick="filterCategory('Washing Machine')" class="hover:text-brand-orange transition flex items-center gap-1"><i class="fa-solid fa-soap"></i> Washing Machines</button>
+                <button onclick="filterCategory('Home Appliances')" class="hover:text-brand-orange transition flex items-center gap-1"><i class="fa-solid fa-blender"></i> Home Appliances</button>
+                <button onclick="openFinanceModal()" class="text-brand-bajaj font-bold flex items-center gap-1"><i class="fa-solid fa-percent"></i> Finance Schemes</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- BANNER CAROUSEL -->
+    <div class="max-w-7xl mx-auto w-full px-2 sm:px-4 mt-3">
+        <div class="bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 rounded-lg text-white p-4 sm:p-6 shadow-md relative overflow-hidden flex flex-col justify-center min-h-[140px]">
+            <div class="absolute right-[-20px] bottom-[-20px] opacity-20 text-9xl"><i class="fa-solid fa-bolt"></i></div>
+            <span class="bg-white text-orange-700 text-[10px] font-extrabold px-2 py-0.5 rounded w-max mb-1 uppercase tracking-wider">महा-बचत फेस्टिव्हल</span>
+            <h2 class="text-xl sm:text-3xl font-black tracking-tight">SAI ELECTRONICS</h2>
+            <p class="text-xs sm:text-sm text-yellow-100 mt-1">सर्वोत्कृष्ट ब्रँडेड टीव्ही, फ्रिज आणि वॉशिंग मशीनवर आकर्षक डिस्काउंट व सोपे हप्ते (Finance Available)!</p>
+            <div class="mt-3 flex gap-2">
+                <button onclick="openFinanceModal()" class="bg-white text-orange-700 font-bold px-3 py-1.5 rounded text-xs shadow hover:bg-yellow-50">EMI तक्ता पहा</button>
+                <a href="https://wa.me/919975312904?text=Hello%20Sai%20Electronics,%20I%20want%20to%20enquire%20about%20products." target="_blank" class="bg-green-600 text-white font-bold px-3 py-1.5 rounded text-xs shadow hover:bg-green-700 flex items-center gap-1">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp चौकशी
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN PRODUCT CATALOG GRID -->
+    <main class="max-w-7xl mx-auto px-2 sm:px-4 py-4 flex-1 w-full">
+        <div class="flex items-center justify-between mb-3">
+            <h3 id="categoryTitle" class="text-base sm:text-lg font-bold text-gray-800">Available Products (<span id="productCount">0</span>)</h3>
+            <div class="text-xs text-gray-500">Shop Near Rajkamal Collection, Athawade Bazar, Faizpur</div>
+        </div>
+
+        <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+            <!-- Dynamic Products Injected Here -->
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-300 py-6 px-4 mt-auto border-t border-gray-800 text-xs">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div>
+                <h4 class="text-white font-bold text-sm mb-2 uppercase tracking-wide border-b border-gray-700 pb-1">Sai Electronics</h4>
+                <p>अठवडे बाजार, राजकमल कलेक्शनजवळ, फैजपूर, जि. जळगाव (महाराष्ट्र).</p>
+                <p class="mt-2 text-brand-orange font-bold">Contact: 9145780320 / 9975312904</p>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm mb-2 uppercase tracking-wide border-b border-gray-700 pb-1">Finance Partners</h4>
+                <ul class="space-y-1">
+                    <li><i class="fa-solid fa-check text-green-500"></i> Bajaj Finance EMI Store</li>
+                    <li><i class="fa-solid fa-check text-green-500"></i> TVS Credit Services</li>
+                    <li><i class="fa-solid fa-check text-green-500"></i> Zero Down Payment Schemes</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold text-sm mb-2 uppercase tracking-wide border-b border-gray-700 pb-1">Quick Links</h4>
+                <div class="flex flex-col gap-1">
+                    <button onclick="openFinanceModal()" class="text-left hover:text-white">Finance & EMI Plans</button>
+                    <button onclick="openAdminLogin()" class="text-left hover:text-white">Admin Management Portal</button>
+                    <a href="https://wa.me/919975312904" target="_blank" class="text-green-400 font-bold hover:underline">Chat on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto text-center border-t border-gray-800 mt-6 pt-4 text-[10px] text-gray-500">
+            &copy; 2026 Sai Electronics, Faizpur. All Rights Reserved. Designed for Mobile & Web.
+        </div>
+    </footer>
+
+    <!-- PRODUCT DETAILS MODAL -->
+    <div id="productModal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-2 sm:p-4">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto p-4 relative shadow-2xl">
+            <button onclick="closeProductModal()" class="absolute right-3 top-3 bg-gray-200 text-gray-700 w-8 h-8 rounded-full flex items-center justify-center font-bold hover:bg-gray-300">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modalContent">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FINANCE SCHEMES MODAL -->
+    <div id="financeModal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-2 sm:p-4">
+        <div class="bg-white rounded-lg max-w-lg w-full p-5 relative shadow-2xl">
+            <button onclick="closeFinanceModal()" class="absolute right-3 top-3 text-gray-500 hover:text-gray-800"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 class="text-lg font-bold text-brand-orange mb-3 flex items-center gap-2"><i class="fa-solid fa-percent"></i> Available Finance Schemes</h3>
+            <div class="space-y-3 text-xs sm:text-sm text-gray-700">
+                <div class="p-3 bg-blue-50 border-l-4 border-brand-bajaj rounded">
+                    <h4 class="font-bold text-brand-bajaj text-sm">Bajaj Finserv EMI Card</h4>
+                    <p class="text-xs text-gray-600 mt-1">उद्याच टीव्ही किंवा फ्रिज आणा, झिरो डाऊन पेमेंट आणि सुलभ मासिक हप्त्यांवर (No Cost EMI).</p>
+                </div>
+                <div class="p-3 bg-red-50 border-l-4 border-brand-tvs rounded">
+                    <h4 class="font-bold text-brand-tvs text-sm">TVS Credit Easy Finance</h4>
+                    <p class="text-xs text-gray-600 mt-1">फक्त आधार कार्ड आणि पॅन कार्डवर इन्स्टंट लोन अप्रूवल.</p>
+                </div>
+                <div class="p-3 bg-green-50 border-l-4 border-green-600 rounded">
+                    <h4 class="font-bold text-green-700 text-sm">Special Cash Discount</h4>
+                    <p class="text-xs text-gray-600 mt-1">रोख खरेदीवर विशेष सवलत (Special Cash Discount) मिळवण्यासाठी थेट शोरूमला भेट द्या!</p>
+                </div>
+            </div>
+            <div class="mt-5 text-center">
+                <a href="https://wa.me/919975312904?text=Hello%20Sai%20Electronics,%20I%20want%20to%20know%20more%20about%20EMI%20Finance%20options." target="_blank" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-xs inline-flex items-center gap-2">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp वर फायनान्स माहिती मिळवा
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART / CHECKOUT MODAL -->
+    <div id="cartModal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-2 sm:p-4">
+        <div class="bg-white rounded-lg max-w-md w-full p-4 relative shadow-2xl">
+            <button onclick="closeCart()" class="absolute right-3 top-3 text-gray-500 hover:text-gray-800"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 class="text-base font-bold mb-3 flex items-center gap-2"><i class="fa-solid fa-cart-shopping text-brand-orange"></i> Your Cart Orders</h3>
+            <div id="cartItemsContainer" class="max-h-60 overflow-y-auto divide-y divide-gray-100 text-xs sm:text-sm">
+                <!-- Cart items -->
+            </div>
+            <div class="border-t pt-3 mt-3">
+                <div class="flex justify-between font-bold text-sm mb-3">
+                    <span>Total Amount:</span>
+                    <span id="cartTotalPrice" class="text-brand-orange">₹0</span>
+                </div>
+                <div class="space-y-2">
+                    <input type="text" id="custName" placeholder="तुमचे नाव (Your Name)" class="w-full text-xs p-2 border rounded focus:outline-none focus:border-brand-orange">
+                    <input type="tel" id="custPhone" placeholder="मोबाईल नंबर (Mobile Number)" class="w-full text-xs p-2 border rounded focus:outline-none focus:border-brand-orange">
+                    <button onclick="checkoutWhatsApp()" class="w-full bg-green-600 text-white font-bold py-2 rounded text-xs flex items-center justify-center gap-2 hover:bg-green-700">
+                        <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp वर ऑर्डर पाठवा (Send Order)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-2">
+        <div class="bg-white rounded-lg max-w-xs w-full p-5 relative shadow-2xl text-center">
+            <button onclick="closeAdminLogin()" class="absolute right-3 top-3 text-gray-500"><i class="fa-solid fa-xmark"></i></button>
+            <div class="w-12 h-12 bg-orange-100 text-brand-orange rounded-full flex items-center justify-center mx-auto mb-3 text-lg font-bold">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <h3 class="text-base font-bold mb-1">Admin Portal</h3>
+            <p class="text-[11px] text-gray-500 mb-3">Enter Admin PIN to manage products</p>
+            <input type="password" id="adminPinInput" placeholder="Enter PIN (0320)" maxlength="4" class="w-full text-center tracking-widest text-lg p-2 border rounded mb-3 focus:outline-none focus:border-brand-orange">
+            <button onclick="verifyAdminPin()" class="w-full bg-brand-orange text-white font-bold py-2 rounded text-xs hover:bg-brand-darkOrange">Login</button>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD MODAL -->
+    <div id="adminDashboardModal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-2 sm:p-4">
+        <div class="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto p-4 relative shadow-2xl">
+            <div class="flex items-center justify-between border-b pb-2 mb-3">
+                <h3 class="text-base font-bold text-brand-orange"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Product Management</h3>
+                <button onclick="closeAdminDashboard()" class="text-gray-500 text-lg font-bold"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Add/Edit Product Form -->
+            <div class="bg-gray-50 p-3 rounded border mb-4">
+                <h4 id="formTitle" class="text-xs font-bold text-gray-700 mb-2 uppercase">Add New Product</h4>
+                <input type="hidden" id="editIndex" value="-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    <input type="text" id="pName" placeholder="Product Name (e.g. Samsung 43\" Smart TV)" class="p-2 border rounded">
+                    <select id="pCategory" class="p-2 border rounded">
+                        <option value="LED TV">LED TV</option>
+                        <option value="Refrigerator">Refrigerator</option>
+                        <option value="Washing Machine">Washing Machine</option>
+                        <option value="Home Appliances">Home Appliances</option>
+                    </select>
+                    <input type="number" id="pPrice" placeholder="Selling Price (₹)" class="p-2 border rounded">
+                    <input type="number" id="pMrp" placeholder="MRP Price (₹)" class="p-2 border rounded">
+                    
+                    <!-- Image Upload -->
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-gray-600 mb-1">Upload Product Image from Device:</label>
+                        <input type="file" id="pImageFile" accept="image/*" onchange="handleImageUpload(event)" class="w-full text-xs p-1 border rounded bg-white">
+                        <input type="hidden" id="pImageBase64">
+                        <div id="imagePreviewContainer" class="mt-2"></div>
+                    </div>
+
+                    <textarea id="pSpecs" placeholder="Specifications (e.g. 4K Ultra HD, 2 Years Warranty, Dolby Audio)" class="sm:col-span-2 p-2 border rounded h-16"></textarea>
+                    <textarea id="pWarranty" placeholder="Warranty Details (e.g. 1 Year Comprehensive + 2 Years on Panel)" class="sm:col-span-2 p-2 border rounded h-12"></textarea>
+                </div>
+                <div class="mt-3 flex gap-2">
+                    <button onclick="saveProduct()" class="bg-green-600 text-white px-4 py-1.5 rounded text-xs font-bold hover:bg-green-700">Save Product</button>
+                    <button onclick="resetAdminForm()" class="bg-gray-300 text-gray-700 px-3 py-1.5 rounded text-xs font-bold">Cancel / Reset</button>
+                </div>
+            </div>
+
+            <!-- Product List Table -->
+            <h4 class="text-xs font-bold text-gray-700 mb-2 uppercase">Existing Inventory</h4>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200 text-gray-700">
+                            <th class="p-2 border">Image</th>
+                            <th class="p-2 border">Name</th>
+                            <th class="p-2 border">Category</th>
+                            <th class="p-2 border">Price</th>
+                            <th class="p-2 border text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminProductTableBody">
+                        <!-- Injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Initial Default Products for Sai Electronics
+        const defaultProducts = [
+            {
+                name: "Samsung 43\" Crystal 4K UHD Smart LED TV",
+                category: "LED TV",
+                price: 31990,
+                mrp: 47990,
+                image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&q=80&w=500",
+                specs: "PurColor, Crystal Processor 4K, Motion Xcelerator, HDR 10+, Q-Symphony Audio, 3 HDMI & 1 USB ports.",
+                warranty: "1 Year Comprehensive Warranty + 1 Year Additional on Panel by Samsung."
+            },
+            {
+                name: "Whirlpool 265 L 3 Star Frost Free Double Door Refrigerator",
+                category: "Refrigerator",
+                price: 26490,
+                mrp: 35500,
+                image: "ht
