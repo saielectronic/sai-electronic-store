@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>साई इलेक्ट्रॉनिक फैजपूर - Sai Electronics Flipkart Store</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fkBlue: '#2874f0',
+                        fkBlueDark: '#1a5bb8',
+                        fkYellow: '#ffe11b',
+                        fkOrange: '#fb641b',
+                        fkGreen: '#388e3c'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f3f6; } .brand-title{font-family:'Baloo 2','Poppins',sans-serif;font-weight:800;letter-spacing:.2px;line-height:.98;text-shadow:0 2px 0 rgba(0,0,0,.10)} .brand-subtitle{font-family:'Poppins','Inter',sans-serif;font-weight:600;letter-spacing:.15px} .brand-logo{font-family:'Poppins',sans-serif;font-weight:900;letter-spacing:-1.5px}
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col selection:bg-fkBlue selection:text-white">
+
+    <!-- TOP HEADER / NAVBAR -->
+    <header class="bg-fkBlue text-white sticky top-0 z-40 shadow-md">
+        <div class="max-w-7xl mx-auto px-3 py-2 flex items-center justify-between gap-2 sm:gap-4">
+            
+            <!-- Logo & Brand Name -->
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="switchTab('storefront')">
+                <div class="brand-logo bg-white text-fkBlue rounded-xl px-2.5 py-1 text-xl italic shadow-lg">
+                    SE
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-base sm:text-xl tracking-wide leading-tight italic flex items-center gap-1">
+                        साई इलेक्ट्रॉनिक
+                        <span class="text-[10px] sm:text-xs text-gray-900 font-bold not-italic bg-fkYellow px-1.5 py-0.5 rounded shadow-sm">फैजपूर</span>
+                    </h1>
+                    <p class="text-[10px] text-gray-200 italic font-medium">Sai Electronics • सर्वोत्कृष्ट इलेक्ट्रॉनिक्स दालन</p>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-xl mx-2 hidden md:block">
+                <div class="relative">
+                    <input type="text" id="searchInput" oninput="renderStorefront()" placeholder="टीव्ही, फ्रीज, वॉशिंग मशीन, एसी, होम अप्लायन्सेस शोधा..." class="w-full py-2 pl-4 pr-10 rounded-sm text-gray-800 text-sm focus:outline-none shadow-inner">
+                    <button class="absolute right-0 top-0 bottom-0 px-3 text-fkBlue hover:text-fkBlueDark">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Action Buttons (Call, WhatsApp, Admin Login Lock) -->
+            <div class="flex items-center space-x-2 sm:space-x-3 text-sm font-medium">
+
+                <button onclick="openCartModal()" class="relative flex items-center gap-1 bg-white text-fkBlue px-2.5 py-1.5 rounded text-xs font-extrabold shadow hover:bg-blue-50" aria-label="Cart">
+                    <i class="fas fa-shopping-cart text-sm"></i><span>Cart</span>
+                    <span id="cartCount" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full min-w-5 h-5 px-1 flex items-center justify-center text-[10px]">0</span>
+                </button>
+                <!-- Quick WhatsApp Header Button -->
+                <button onclick="openGeneralOrderModal()" class="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-2.5 py-1.5 rounded text-xs transition shadow font-bold">
+                    <i class="fab fa-whatsapp text-sm sm:text-base"></i>
+                    <span class="hidden sm:inline">ऑर्डर करा</span>
+                </button>
+
+                <!-- Navigation Tabs Button -->
+                
+                <!-- Protected Admin Button (Triggers Password Modal '0320') -->
+                <button onclick="openPasswordModal()" class="bg-fkYellow text-gray-900 font-extrabold px-3 py-1.5 rounded shadow hover:bg-yellow-400 flex items-center gap-1.5 text-xs transition">
+                    <i class="fas fa-lock text-gray-800"></i> 
+                    <span>ॲडमिन लॉगीन</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Search Bar -->
+        <div class="px-3 pb-2 md:hidden">
+            <div class="relative">
+                <input type="text" id="searchInputMobile" oninput="syncMobileSearch(this.value)" placeholder="सामग्री किंवा प्रॉडक्ट शोधा..." class="w-full py-1.5 pl-3 pr-8 rounded text-gray-800 text-xs focus:outline-none">
+                <i class="fas fa-search absolute right-2.5 top-2.5 text-gray-400 text-xs"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- CUSTOMER STOREFRONT VIEW -->
+    <main id="storefrontView" class="flex-grow max-w-7xl w-full mx-auto p-2 sm:p-4 space-y-4">
+        
+        <!-- CATEGORIES BAR CAROUSEL -->
+        <div class="bg-white rounded-md shadow p-3">
+            <div class="flex justify-between items-center mb-2 px-1">
+                <h2 class="text-xs sm:text-sm font-bold text-gray-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fas fa-layer-group text-fkBlue"></i> कॅटेगरी (Categories)
+                </h2>
+                <span class="text-xs text-fkBlue font-bold cursor-pointer hover:underline" onclick="filterByCategory('All')">सर्व दाखवा</span>
+            </div>
+            <div id="categoryContainer" class="flex items-center gap-4 overflow-x-auto no-scrollbar py-2">
+                <!-- Dynamic Categories Rendered Here -->
+            </div>
+        </div>
+
+        <!-- MAIN HERO BANNER SLIDER -->
+        <div class="relative bg-gray-900 rounded-md overflow-hidden shadow-md group">
+            <div id="bannerSlider" class="relative h-44 sm:h-64 md:h-80 w-full overflow-hidden">
+                <!-- Dynamic Banners Rendered Here -->
+            </div>
+            <!-- Slider Controls -->
+            <button onclick="prevBanner()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white p-2 rounded-full opacity-80 group-hover:opacity-100 transition z-20">
+                <i class="fas fa-chevron-left text-sm sm:text-base"></i>
+            </button>
+            <button onclick="nextBanner()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white p-2 rounded-full opacity-80 group-hover:opacity-100 transition z-20">
+                <i class="fas fa-chevron-right text-sm sm:text-base"></i>
+            </button>
+        </div>
+
+        <!-- MIDDLE OFFER PROMO BANNERS -->
+        <div id="offerBannerPromoContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <!-- Dynamic Promo Banners -->
+        </div>
+
+        <!-- PRODUCTS SECTION HEADER & FILTERS -->
+        <div class="bg-white p-3 rounded-md shadow flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-l-4 border-fkBlue">
+            <div>
+                <h2 id="currentCategoryTitle" class="text-base sm:text-lg font-bold text-gray-800">सर्व प्रॉडक्ट्स (All Products)</h2>
+                <p class="text-xs text-gray-500">साई इलेक्ट्रॉनिक फैजपूर - माहिती पाहण्यासाठी प्रॉडक्टवर क्लिक करा</p>
+            </div>
+            <div class="flex items-center gap-2 self-end sm:self-auto text-xs">
+                <label class="text-gray-600 font-semibold">क्रमवारी:</label>
+                <select id="sortSelect" onchange="renderStorefront()" class="border border-gray-300 rounded px-2.5 py-1 bg-gray-50 focus:outline-none text-xs font-medium">
+                    <option value="default">पसंती (Featured)</option>
+                    <option value="priceLow">किंमत: कमी ते जास्त</option>
+                    <option value="priceHigh">किंमत: जास्त ते कमी</option>
+                    <option value="discount">सगळ्यात जास्त डिस्काउंट</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- PRODUCT GRID FOR CUSTOMERS -->
+        <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4">
+            <!-- Dynamic Product Cards Rendered Here -->
+        </div>
+        
+    </main>
+
+    <!-- ADMIN PANEL VIEW (PROTECTED BY PASSWORD "0320") -->
+    <main id="adminView" class="hidden flex-grow max-w-7xl w-full mx-auto p-3 sm:p-6 space-y-6">
+        
+        <!-- Admin Dashboard Header -->
+        <div class="bg-white p-4 rounded-lg shadow border-l-4 border-fkBlue flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div>
+                <h2 class="text-xl font-black text-gray-800 flex items-center gap-2">
+                    <i class="fas fa-user-shield text-fkBlue"></i> साई इलेक्ट्रॉनिक ॲडमिन कंट्रोल पॅनेल
+                    <span class="text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded border border-green-300">Unlocked</span>
+                </h2>
+                <p class="text-xs text-gray-500">इथून तुम्ही प्रॉडक्ट्स, प्राप्त ऑर्डर्स, फोटो, किंमती, डिस्काउंट, स्टॉक आणि बॅनर्स बदलू शकता.</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="switchTab('storefront')" class="bg-gray-700 hover:bg-gray-800 text-white text-xs px-3 py-2 rounded font-semibold transition">
+                    <i class="fas fa-eye"></i> वेबसाइट पहा
+                </button>
+                <button onclick="logoutAdmin()" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-2 rounded font-bold shadow transition">
+                    <i class="fas fa-sign-out-alt"></i> लॉक करा (Logout)
+                </button>
+                <button onclick="resetToDefaults()" class="bg-red-100 text-red-700 hover:bg-red-200 text-xs px-2.5 py-2 rounded font-semibold transition">
+                    <i class="fas fa-undo"></i> रिसेट
+                </button>
+            </div>
+        </div>
+
+        <!-- Admin Navigation Tabs -->
+        <div class="flex border-b border-gray-200 bg-white rounded-t-lg overflow-x-auto no-scrollbar">
+            <button onclick="switchAdminSubTab('orders')" id="tab-orders" class="admin-tab-btn px-5 py-3 text-sm font-bold border-b-2 border-fkBlue text-fkBlue relative">
+                <i class="fas fa-shopping-bag"></i> प्राप्त ऑर्डर्स (Orders)
+                <span id="orderBadgeCount" class="ml-1 bg-red-600 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">0</span>
+            </button>
+            <button onclick="switchAdminSubTab('manage-products')" id="tab-manage-products" class="admin-tab-btn px-5 py-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-fkBlue">
+                <i class="fas fa-box"></i> प्रॉडक्ट मॅनेजमेंट
+            </button>
+            <button onclick="switchAdminSubTab('manage-categories')" id="tab-manage-categories" class="admin-tab-btn px-5 py-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-fkBlue">
+                <i class="fas fa-list"></i> कॅटेगरी मॅनेजमेंट
+            </button>
+            <button onclick="switchAdminSubTab('manage-banners')" id="tab-manage-banners" class="admin-tab-btn px-5 py-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-fkBlue">
+                <i class="fas fa-images"></i> बॅनर्स व ऑफर्स
+            </button>
+            <button onclick="switchAdminSubTab('manage-settings')" id="tab-manage-settings" class="admin-tab-btn px-5 py-3 text-sm font-bold border-b-2 border-transparent text-gray-500 hover:text-fkBlue">
+                <i class="fas fa-phone-alt"></i> संपर्क व व्हॉट्सॲप नंबर
+            </button>
+        </div>
+
+        <!-- SUB TAB 0: RECEIVED ORDERS -->
+        <div id="subtab-orders" class="space-y-4">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <div class="flex justify-between items-center mb-4 pb-2 border-b">
+                    <h3 class="text-base font-bold text-gray-800 flex items-center gap-2">
+                        <i class="fas fa-clipboard-list text-fkBlue"></i> ग्राहकांनी बुक केलेल्या सर्व ऑर्डर्स
+                    </h3>
+                    <button onclick="clearAllOrders()" class="text-xs bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded font-semibold transition">
+                        <i class="fas fa-trash-alt"></i> सर्व ऑर्डर्स साफ करा
+                    </button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 border-b">
+                                <th class="p-2.5">तारीख व वेळ</th>
+                                <th class="p-2.5">ग्राहक नाव</th>
+                                <th class="p-2.5">मोबाईल नंबर</th>
+                                <th class="p-2.5">डिलिव्हरी पत्ता</th>
+                                <th class="p-2.5">ऑर्डर केलेले प्रॉडक्ट</th>
+                                <th class="p-2.5">एकूण रक्कम</th>
+                                <th class="p-2.5 text-center">ॲक्शन</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminOrdersTable">
+                            <!-- Dynamic Orders List -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUB TAB 1: PRODUCT MANAGEMENT -->
+        <div id="subtab-manage-products" class="hidden space-y-6">
+            
+            <!-- Add / Edit Product Form Container -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 id="productFormTitle" class="text-base font-bold text-gray-800 mb-4 pb-2 border-b flex items-center justify-between">
+                    <span><i class="fas fa-plus-circle text-fkBlue mr-1"></i> नवीन प्रॉडक्ट जोडा (Add Product)</span>
+                    <button id="cancelEditBtn" onclick="resetProductForm()" class="hidden text-xs text-red-600 font-bold underline">रद्द करा</button>
+                </h3>
+
+                <form id="productForm" onsubmit="handleProductSubmit(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                    <input type="hidden" id="prodId">
+
+                    <div class="md:col-span-2">
+                        <label class="block font-semibold text-gray-700 mb-1">प्रॉडक्टचे नाव (Product Title) *</label>
+                        <input type="text" id="prodTitle" required placeholder="उदा. Samsung 139 cm (55 inch) Crystal 4K UHD Smart TV" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-fkBlue outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">कॅटेगरी (Category) *</label>
+                        <select id="prodCategory" required class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-fkBlue outline-none">
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">जुनी किंमत / MRP (₹) *</label>
+                        <input type="number" id="prodMrp" required oninput="autoCalculateDiscount()" placeholder="उदा. 54990" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-fkBlue outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">विक्री किंमत / Selling Price (₹) *</label>
+                        <input type="number" id="prodPrice" required oninput="autoCalculateDiscount()" placeholder="उदा. 38990" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-fkBlue outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">डिस्काउंट % (Auto Calculated)</label>
+                        <input type="text" id="prodDiscount" readonly placeholder="उदा. 29% OFF" class="w-full bg-gray-100 border rounded px-3 py-2 text-gray-700 font-bold">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">कॅपॅसिटी / व्हॅरिएंट (Capacity/Size)</label>
+                        <input type="text" id="prodCapacity" placeholder="उदा. 55 Inch / 260 Litres / 7 kg" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-fkBlue outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">वॉरंटी (Warranty Details)</label>
+                        <input type="text" id="prodWarranty" placeholder="उदा. 1 Year Comprehensive + 10 Year Compressor" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-fkBlue outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">स्टॉक परिस्थिती (Stock Status)</label>
+                        <select id="prodStock" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-fkBlue outline-none">
+                            <option value="In Stock">In Stock (उपलब्ध आहे)</option>
+                            <option value="Out of Stock">Out of Stock (उपलब्ध नाही)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">रेटिंग (1 ते 5 स्टार)</label>
+                        <input type="number" step="0.1" max="5" min="1" id="prodRating" value="4.5" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-fkBlue outline-none">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block font-semibold text-gray-700 mb-1">प्रॉडक्ट फोटो URL किंवा थेट अपलोड करा</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="prodImage" placeholder="https://example.com/image.jpg" class="flex-1 border rounded px-3 py-2 focus:ring-2 focus:ring-fkBlue outline-none">
+                            <label class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded cursor-pointer text-xs font-bold flex items-center gap-1">
+                                <i class="fas fa-upload"></i> फोटो निवडा
+                                <input type="file" accept="image/*" onchange="convertImageToBase64(this, 'prodImage')" class="hidden">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-3">
+                        <label class="block font-semibold text-gray-700 mb-1">अतिरिक्त प्रॉडक्ट फोटो (एकूण 4 फोटोपर्यंत)</label>
+                        <p class="text-[11px] text-gray-500 mb-2">मुख्य फोटोसोबत आणखी 3 फोटो जोडा. ग्राहकांना प्रॉडक्टच्या तपशीलात सर्व फोटो दिसतील.</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            <div class="flex gap-1"><input type="text" id="prodImage2" placeholder="फोटो 2 URL" class="min-w-0 flex-1 border rounded px-2 py-2 text-xs"><label class="bg-gray-200 px-2 py-2 rounded cursor-pointer text-xs font-bold">अपलोड<input type="file" accept="image/*" onchange="convertImageToBase64(this, 'prodImage2')" class="hidden"></label></div>
+                            <div class="flex gap-1"><input type="text" id="prodImage3" placeholder="फोटो 3 URL" class="min-w-0 flex-1 border rounded px-2 py-2 text-xs"><label class="bg-gray-200 px-2 py-2 rounded cursor-pointer text-xs font-bold">अपलोड<input type="file" accept="image/*" onchange="convertImageToBase64(this, 'prodImage3')" class="hidden"></label></div>
+                            <div class="flex gap-1"><input type="text" id="prodImage4" placeholder="फोटो 4 URL" class="min-w-0 flex-1 border rounded px-2 py-2 text-xs"><label class="bg-gray-200 px-2 py-2 rounded cursor-pointer text-xs font-bold">अपलोड<input type="file" accept="image/*" onchange="convertImageToBase64(this, 'prodImage4')" class="hidden"></label></div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-3">
+                        <label class="block font-semibold text-gray-700 mb-1">संपूर्ण वैशिष्ट्ये / तपशील (Specifications & Full Details)</label>
+                        <textarea id="prodSpecs" rows="3" placeholder="उदा. Smart AI ThinQ, 4K Display, 20W Speaker, Energy Efficient 5 Star, Inverter Linear Compressor..." class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-fkBlue outline-none"></textarea>
+                    </div>
+
+                    <div class="md:col-span-3 flex justify-end gap-2 mt-2">
+                        <button type="button" onclick="resetProductForm()" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded font-semibold">रीसेट करा</button>
+                        <button type="submit" id="saveProdBtn" class="px-6 py-2 bg-fkBlue hover:bg-fkBlueDark text-white rounded font-bold shadow">प्रॉडक्ट सेव्ह करा</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Existing Products Table -->
+            <div class="bg-white p-4 rounded-lg shadow overflow-x-auto">
+                <h3 class="text-base font-bold text-gray-800 mb-4 pb-2 border-b">
+                    <i class="fas fa-boxes text-fkBlue mr-1"></i> सर्व प्रॉडक्ट्स सूची (Product List)
+                </h3>
+                <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-700 border-b">
+                            <th class="p-2">फोटो</th>
+                            <th class="p-2">प्रॉडक्ट नाव</th>
+                            <th class="p-2">कॅटेगरी</th>
+                            <th class="p-2">विक्री किंमत</th>
+                            <th class="p-2">MRP</th>
+                            <th class="p-2">स्टॉक</th>
+                            <th class="p-2 text-center">ॲक्शन</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminProductsTable">
+                        <!-- Dynamic Table Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SUB TAB 2: CATEGORY MANAGEMENT -->
+        <div id="subtab-manage-categories" class="hidden space-y-6">
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-base font-bold text-gray-800 mb-4 pb-2 border-b">
+                    <i class="fas fa-folder-plus text-fkBlue mr-1"></i> नवीन कॅटेगरी जोडा
+                </h3>
+                <form id="categoryForm" onsubmit="handleCategorySubmit(event)" class="flex flex-col sm:flex-row gap-4 items-end">\n                    <input type="hidden" id="catId">
+                    <div class="flex-1 w-full">
+                        <label class="block font-semibold text-gray-700 mb-1 text-xs sm:text-sm">कॅटेगरीचे नाव *</label>
+                        <input type="text" id="catName" required placeholder="उदा. Smart TVs" class="w-full border rounded px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-fkBlue outline-none">
+                    </div>
+                    <div class="flex-1 w-full">
+                        <label class="block font-semibold text-gray-700 mb-1 text-xs sm:text-sm">कॅटेगरी आयकॉन / फोटो URL</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="catImage" placeholder="https://..." class="flex-1 border rounded px-3 py-2 text-xs sm:text-sm focus:ring-2 focus:ring-fkBlue outline-none">
+                            <label class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded cursor-pointer text-xs font-bold flex items-center">
+                                Upload
+                                <input type="file" accept="image/*" onchange="convertImageToBase64(this, 'catImage')" class="hidden">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <button type="button" id="cancelCatEditBtn" onclick="resetCategoryForm()" class="hidden px-3 py-2 bg-gray-200 text-gray-700 rounded font-bold text-xs">रद्द</button>
+                        <button type="submit" id="saveCatBtn" class="flex-1 sm:flex-none px-6 py-2 bg-fkBlue hover:bg-fkBlueDark text-white rounded font-bold text-xs sm:text-sm shadow">कॅटेगरी जोडा</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Category List -->
+            <div class="bg-white p-4 rounded-lg shadow">
+                <h3 class="text-base font-bold text-gray-800 mb-4 pb-2 border-b">सध्याच्या कॅटेगरी</h3>
+                <div id="adminCategoryGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+                    <!-- Dynamic List -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SUB TAB 3: BANNER MANAGEMENT -->
+        <div id="subtab-manage-banners" class="hidden space-y-6">
+            
+            <!-- Hero Banners -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-base font-bold text-gray-800 mb-4 pb-2 border-b">
+                    <i class="fas fa-image text-fkBlue mr-1"></i> मुख्य होमपेज स्लाइडर बॅनर बदलणे (Hero Banners)
+                </h3>
+                <form id="bannerForm" onsubmit="handleBannerSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">\n                    <input type="hidden" id="banId">
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">मुख्य शीर्षक (Title)</label>
+                        <input type="text" id="banTitle" required placeholder="उदा. महा डिस्काउंट फेस्टिव्हल सेल!" class="w-full border rounded px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">उपशीर्षक / ऑफर टेक्स्ट (Subtitle)</label>
+                        <input type="text" id="banSubtitle" required placeholder="उदा. सर्व इलेक्ट्रॉनिक वस्तूंवर 50% पर्यंत सूट" class="w-full border rounded px-3 py-2">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block font-semibold text-gray-700 mb-1">बॅनर इमेज URL</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="banImage" required placeholder="https://..." class="flex-1 border rounded px-3 py-2">
+                            <label class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded cursor-pointer text-xs font-bold flex items-center">
+                                Upload
+                                <input type="file" accept="image/*" onchange="convertImageToBase64(this, 'banImage')" class="hidden">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 flex justify-end">
+                        <button type="submit" class="px-6 py-2 bg-fkBlue hover:bg-fkBlueDark text-white rounded font-bold shadow">
+                            बॅनर जोडा
+                        </button>
+                    </div>
+                </form>
+
+                <div class="mt-6 border-t pt-4">
+                    <h4 class="font-bold text-gray-700 text-xs sm:text-sm mb-3">सध्याचे स्लाइडर बॅनर्स</h4>
+                    <div id="adminHeroBannerList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        <!-- Dynamic Banners -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promo Banners -->
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow">
+                <h3 class="text-base font-bold text-gray-800 mb-4 pb-2 border-b">
+                    <i class="fas fa-ad text-fkBlue mr-1"></i> ऑफर प्रोमो बॅनर (Middle Banners)
+                </h3>
+                <form id="promoForm" onsubmit="handlePromoBannerSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm">\n                    <input type="hidden" id="promoId">
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">ऑफर शीर्षक</label>
+                        <input type="text" id="promoTitle" required placeholder="उदा. एक्सचेंज बोनस ₹3000 पर्यंत!" class="w-full border rounded px-3 py-2">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">रंग / बॅकग्राऊंड थीम</label>
+                        <select id="promoBg" class="w-full border rounded px-3 py-2">
+                            <option value="from-blue-600 to-indigo-800">निळा ग्रॅडियंट (Blue)</option>
+                            <option value="from-amber-500 to-red-600">पिवळा/लाल ग्रॅडियंट (Yellow/Red)</option>
+                            <option value="from-emerald-600 to-teal-800">हिरवा ग्रॅडियंट (Green)</option>
+                            <option value="from-purple-600 to-pink-600">जांभळा ग्रॅडियंट (Purple)</option>
+                        </select>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block font-semibold text-gray-700 mb-1">बॅनर फोटो URL</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="promoImage" placeholder="https://..." class="flex-1 border rounded px-3 py-2">
+                            <label class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded cursor-pointer text-xs font-bold flex items-center">
+                                Upload
+                                <input type="file" accept="image/*" onchange="convertImageToBase64(this, 'promoImage')" class="hidden">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 flex justify-end gap-2">
+                        <button type="button" id="cancelPromoEditBtn" onclick="resetPromoForm()" class="hidden px-4 py-2 bg-gray-200 text-gray-700 rounded font-bold">रद्द</button>
+                        <button type="submit" id="savePromoBtn" class="px-6 py-2 bg-fkBlue hover:bg-fkBlueDark text-white rounded font-bold shadow">ऑफर बॅनर जोडा</button>
+                    </div>
+                </form>
+
+                <div class="mt-6 border-t pt-4">
+                    <h4 class="font-bold text-gray-700 text-xs sm:text-sm mb-3">सध्याचे ऑफर बॅनर्स</h4>
+                    <div id="adminPromoBannerList" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Dynamic Promo Banners -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUB TAB 4: CONTACT & WHATSAPP SETTINGS -->
+        <div id="subtab-manage-settings" class="hidden space-y-6">
+            <div class="bg-white p-4 sm:p-6 rounded-lg shadow max-w-xl">
+                <h3 class="text-base font-bold text-gray-800 mb-4 pb-2 border-b">
+                    <i class="fas fa-headset text-fkBlue mr-1"></i> संपर्क व व्हॉट्सॲप नंबर कॉन्फिगरेशन
+                </h3>
+                <form onsubmit="handleSettingsSubmit(event)" class="space-y-4 text-xs sm:text-sm">
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">प्रायमरी कॉलिंग नंबर (Call Number)</label>
+                        <input type="text" id="settingContact" required class="w-full border rounded px-3 py-2 font-mono text-gray-800">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-gray-700 mb-1">ऑर्डर मेसेजसाठी व्हॉट्सॲप नंबर (WhatsApp Target Number)</label>
+                        <input type="text" id="settingWhatsapp" required class="w-full border rounded px-3 py-2 font-mono text-gray-800">
+                        <p class="text-[11px] text-gray-500 mt-1">टीप: हा नंबर ग्राहकांना समोर टेक्स्ट स्वरूपात दिसत नाही, तो बॅकएंडला सुरक्षित राहतो.</p>
+                    </div>
+                    <button type="submit" class="w-full py-2.5 bg-green-600 hover:bg-green-700 text-white rounded font-bold shadow">
+                        नंबर अपडेट करा
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- PRODUCT FULL DETAIL MODAL FOR CUSTOMERS -->
+    <div id="productDetailModal" class="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-3 hidden">
+        <div class="bg-white rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative border-t-4 border-fkBlue p-4 sm:p-6 space-y-4">
+            
+            <button onclick="closeProductModal()" class="absolute right-3 top-3 text-gray-400 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+
+            <div id="modalContent" class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                <!-- Dynamically populated product detail view -->
+            </div>
+        </div>
+    </div>
+
+    <div id="cartModal" class="fixed inset-0 bg-black/70 z-[60] hidden items-center justify-center p-3">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-4 sm:p-5">
+            <div class="flex items-center justify-between border-b pb-3 mb-3">
+                <h2 class="text-lg font-extrabold text-gray-900"><i class="fas fa-shopping-cart text-fkBlue mr-2"></i>तुमची Cart</h2>
+                <button onclick="closeCartModal()" class="text-gray-500 text-xl px-2">&times;</button>
+            </div>
+            <div id="cartItems" class="space-y-3"></div>
+            <div class="border-t mt-4 pt-3 flex items-center justify-between font-extrabold"><span>एकूण रक्कम</span><span id="cartTotal" class="text-lg text-green-700">₹0</span></div>
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <button onclick="closeCartModal()" class="border rounded-lg py-2 font-bold">खरेदी सुरू ठेवा</button>
+                <button onclick="checkoutCart()" class="bg-fkYellow rounded-lg py-2 font-extrabold"><i class="fab fa-whatsapp text-green-700 mr-1"></i>ऑर्डर करा</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOMER ORDER FORM MODAL (DETAILS INPUT BEFORE WHATSAPP) -->
+    <div id="customerOrderModal" class="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-3 hidden">
+        <div class="bg-white rounded-lg shadow-2xl max-w-md w-full p-4 sm:p-6 space-y-4 relative border-t-4 border-green-600">
+            <button onclick="closeCustomerOrderModal()" class="absolute right-3 top-3 text-gray-400 hover:text-gray-700">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+
+            <div class="flex items-center gap-3 border-b pb-3">
+                <div class="w-10 h-10 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-xl font-bold flex-shrink-0">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-black text-gray-900">ऑर्डर माहिती भरा (Order Details)</h3>
+                    <p class="text-xs text-gray-500">माहिती भरा, थेट व्हॉट्सॲपवर ऑर्डर कन्फर्म करा.</p>
+                </div>
+            </div>
+
+            <!-- Product Brief in Modal -->
+            <div id="modalProductBrief" class="bg-gray-50 p-2.5 rounded border text-xs flex gap-3 items-center">
+                <!-- Dynamically filled -->
+            </div>
+
+            <form onsubmit="submitCustomerOrder(event)" class="space-y-3 text-xs sm:text-sm">
+                <input type="hidden" id="orderProductId">
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">तुमचे संपूर्ण नाव (Full Name) *</label>
+                    <input type="text" id="custName" required placeholder="उदा. राहुल पाटील" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-green-600 outline-none">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">मोबाईल नंबर (Mobile Number) *</label>
+                    <input type="tel" id="custPhone" required pattern="[0-9]{10}" placeholder="उदा. 98XXXXXXXX" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-green-600 outline-none">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">पूर्ण डिलिव्हरी पत्ता (Delivery Address) *</label>
+                    <textarea id="custAddress" required rows="2" placeholder="उदा. घर क्र. १२, बाजार पेठ, फैजपूर, जि. जळगाव" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-green-600 outline-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">काही विशेष नोंद / मेसेज (Optional)</label>
+                    <input type="text" id="custNote" placeholder="उदा. संध्याकाळी ५ वाजता डिलिव्हरी करा" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-green-600 outline-none">
+                </div>
+
+                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-extrabold py-3 rounded shadow transition flex items-center justify-center gap-2 text-sm">
+                    <i class="fab fa-whatsapp text-lg"></i>
+                    <span>ऑर्डर कन्फर्म करा & WhatsApp वर पाठवा</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PASSWORD MODAL FOR ADMIN PANEL (PASSWORD "0320") -->
+    <div id="passwordModal" class="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-lg shadow-2xl max-w-sm w-full p-6 text-center space-y-4 relative border-t-4 border-fkBlue">
+            <button onclick="closePasswordModal()" class="absolute right-3 top-3 text-gray-400 hover:text-gray-700">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+
+            <div class="w-14 h-14 bg-blue-100 text-fkBlue rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+                <i class="fas fa-user-lock"></i>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-black text-gray-900">ॲडमिन लॉगीन पिन प्रविष्ट करा</h3>
+                <p class="text-xs text-gray-500 mt-1">वेबसाईटमध्ये बदल करण्यासाठी सुरक्षित पासवर्ड टाकणे अनिवार्य आहे.</p>
+            </div>
+
+            <form onsubmit="verifyAdminPassword(event)" class="space-y-3">
+                <input type="password" id="adminPinInput" required placeholder="पासवर्ड टाका..." class="w-full text-center border-2 border-gray-300 focus:border-fkBlue rounded py-2 px-3 text-lg font-bold tracking-widest outline-none">
+                
+                <p id="passwordError" class="text-xs font-bold text-red-600 hidden">चुकीचा पासवर्ड! पुन्हा प्रयत्न करा.</p>
+
+                <button type="submit" class="w-full bg-fkBlue hover:bg-fkBlueDark text-white font-bold py-2.5 rounded shadow transition">
+                    लॉगीन करा
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-400 text-xs py-6 mt-10 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="text-white font-bold text-sm">साई इलेक्ट्रॉनिक (Sai Electronics) - फैजपूर</p>
+            <p>सर्व इलेक्ट्रॉनिक्स, टीव्ही, फ्रीज, वॉशिंग मशीन आणि एसी साठी विश्वासाचे ठिकाण</p>
+            <div class="pt-2 flex justify-center items-center gap-4 text-gray-300 text-xs font-semibold">
+                <a href="tel:9145780320" class="hover:underline flex items-center gap-1">
+                    <i class="fas fa-phone-alt text-fkYellow"></i> चौकशी: ९१४५७८०३२०
+                </a>
+                <span class="text-green-400 flex items-center gap-1">
+                    <i class="fab fa-whatsapp"></i> व्हॉट्सॲप ऑर्डर सोय
+                </span>
+            </div>
+            <p class="text-[10px] text-gray-500 pt-2">© 2026 Sai Electronics Store. Flipkart Style Responsive Application.</p>
+        </div>
+    </footer>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        // CONFIGURATION & CONSTANTS
+        const ADMIN_PIN = "0320";
+        const DEFAULT_CONTACT = "9145780320";
+        const DEFAULT_WHATSAPP = "9975312904";
+
+        const DEFAULT_CATEGORIES = [
+            { id: "c1", name: "टीव्ही (TVs)", image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=200&auto=format&fit=crop&q=80" },
+            { id: "c2", name: "रेफ्रिजरेटर (Fridges)", image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=200&auto=format&fit=crop&q=80" },
+            { id: "c3", name: "वॉशिंग मशीन", image: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=200&auto=format&fit=crop&q=80" },
+            { id: "c4", name: "एअर कंडिशनर (AC)", image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=200&auto=format&fit=crop&q=80" }
+        ];
+
+        const DEFAULT_BANNERS = [
+            { id: "b1", title: "साई इलेक्ट्रॉनिक महा उत्सव सेल - फैजपूर!", subtitle: "स्मार्ट टीव्ही आणि फ्रीजवर मिळवा विशेष ५०% डिस्काउंट", image: "https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=1000&auto=format&fit=crop&q=80" },
+            { id: "b2", title: "नवीन इन्व्हर्टर एसी स्टॉक उपलब्ध!", subtitle: "उन्हाळ्यासाठी सर्वोत्तम ५ स्टार ब्रँडेड एसी सवलतीत", image: "https://images.unsplash.com/photo-1614633833026-0620959461df?w=1000&auto=format&fit=crop&q=80" }
+        ];
+
+        const DEFAULT_PROMO_BANNERS = [
+            { id: "pb1", title: "जुना फ्रीज किंवा टीव्ही बदला! एक्सचेंज ऑफर ₹४,००० पर्यंत", bg: "from-blue-600 to-indigo-800", image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=400&auto=format&fit=crop&q=80" },
+            { id: "pb2", title: "झीरो डाऊनपेमेंट सुलभ हप्ते (EMI) योजना उपलब्ध!", bg: "from-amber-500 to-red-600", image: "https://images.unsplash.com/photo-1556742049-0a67daf4005a?w=400&auto=format&fit=crop&q=80" }
+        ];
+
+        const DEFAULT_PRODUCTS = [
+            {
+                id: "p1",
+                title: "Samsung 139 cm (55 Inch) Ultra HD (4K) LED Smart TV",
+                category: "टीव्ही (TVs)",
+                mrp: 59990,
+                price: 39990,
+                discount: "33% OFF",
+                capacity: "55 Inch (139 cm)",
+                warranty: "3 Years Brand Warranty",
+                stock: "In Stock",
+                rating: 4.6,
+                image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=600&auto=format&fit=crop&q=80",
+                specs: "• 4K Ultra HD Display (3840 x 2160)\n• WebOS Smart TV with Built-in Wi-Fi\n• 20W Speaker Output with Dolby Audio\n• Preinstalled Apps: Netflix, Prime Video, YouTube, Hotstar\n• 3 HDMI Ports, 2 USB Ports"
+            },
+            {
+                id: "p2",
+                title: "LG 260 L Frost Free Double Door 3 Star Refrigerator",
+                category: "रेफ्रिजरेटर (Fridges)",
+                mrp: 34990,
+                price: 25990,
+                discount: "25% OFF",
+                capacity: "260 Litres",
+                warranty: "1 Year Comprehensive, 10 Years Compressor Warranty",
+                stock: "In Stock",
+                rating: 4.5,
+                image: "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?w=600&auto=format&fit=crop&q=80",
+                specs: "• Smart Inverter Compressor (Energy Efficient)\n• Door Cooling+ Technology for Faster Cooling\n• Toughened Glass Shelves\n• Auto Express Freeze Function\n• Stabilizer Free Operation (100V-310V)"
+            },
+            {
+                id: "p3",
+                title: "Whirlpool 7.5 kg Fully Automatic Top Load Washing Machine",
+                category: "वॉशिंग मशीन",
+                mrp: 21990,
+                price: 15490,
+                discount: "29% OFF",
+                capacity: "7.5 Kg Capacity",
+                warranty: "2 Years Comprehensive, 10 Years Motor Warranty",
+                stock: "In Stock",
+                rating: 4.4,
+                image: "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=600&auto=format&fit=crop&q=80",
+                specs: "• Hard Water Wash Technology\n• Spiro Wash 360-degree Action\n• In-Built Heater for Hot Water Wash\n• 6th Sense Smart Sensors\n• 12 Wash Programs for All Fabric Types"
+            },
+            {
+                id: "p4",
+                title: "Daikin 1.5 Ton 5 Star Inverter Split AC (Copper Condenser)",
+                category: "एअर कंडिशनर (AC)",
+                mrp: 58400,
+                price: 44990,
+                discount: "22% OFF",
+                capacity: "1.5 Ton (5 Star Rated)",
+                warranty: "1 Year Product, 10 Years Compressor Warranty",
+                stock: "In Stock",
+                rating: 4.7,
+                image: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&auto=format&fit=crop&q=80",
+                specs: "• Dew Clean Technology for Auto Self-Cleaning\n• PM 2.5 Air Quality Filter Built-in\n• 3D Airflow Uniform Cooling\n• Triple Display & Economode\n• 100% Grooved Copper Condenser Tubes"
+            }
+        ];
+
+        // SAFE LOCAL STORAGE LOADING (corrupt saved data will not stop the website)
+        function readSaved(key, fallback) {
+            try {
+                const raw = localStorage.getItem(key);
+                return raw ? JSON.parse(raw) : fallback;
+            } catch (err) {
+                console.warn('Saved data could not be read:', key, err);
+                return fallback;
+            }
+        }
+
+        // If an earlier test saved an empty list, restore the original demo content.
+        // This prevents blank categories, banners, and product sections on a new device/domain.
+        function readSavedList(key, fallback) {
+            const saved = readSaved(key, fallback);
+            return Array.isArray(saved) && saved.length > 0 ? saved : fallback;
+        }
+
+        let appState = {
+            isAdminLoggedIn: false,
+            contact: localStorage.getItem('sai_contact') || DEFAULT_CONTACT,
+            whatsapp: localStorage.getItem('sai_whatsapp') || DEFAULT_WHATSAPP,
+            categories: readSavedList('sai_categories', DEFAULT_CATEGORIES),
+            banners: readSavedList('sai_banners', DEFAULT_BANNERS),
+            promoBanners: readSavedList('sai_promos', DEFAULT_PROMO_BANNERS),
+            products: readSavedList('sai_products', DEFAULT_PRODUCTS),
+            orders: readSaved('sai_orders', []),
+            currentCategory: "All",
+            currentBannerIndex: 0
+        };
+        let editingCategoryId = '';
+        let editingBannerId = '';
+        let editingPromoId = '';
+
+        // SAVE STATE WITH STORAGE-QUOTA WARNING
+        function saveState() {
+            try {
+                localStorage.setItem('sai_contact', appState.contact);
+                localStorage.setItem('sai_whatsapp', appState.whatsapp);
+                localStorage.setItem('sai_categories', JSON.stringify(appState.categories));
+                localStorage.setItem('sai_banners', JSON.stringify(appState.banners));
+                localStorage.setItem('sai_promos', JSON.stringify(appState.promoBanners));
+                localStorage.setItem('sai_products', JSON.stringify(appState.products));
+                localStorage.setItem('sai_orders', JSON.stringify(appState.orders));
+                return true;
+            } catch (err) {
+                alert('मोबाईल ब्राउझरची स्टोरेज जागा भरली आहे. कृपया फोटो कमी आकाराचा वापरा किंवा ब्राउझरमधील जागा मोकळी करा. बदल सेव्ह झालेले नसू शकतात.');
+                console.error('Save failed:', err);
+                return false;
+            }
+        }
+
+        // RESET DEFAULTS
+        function resetToDefaults() {
+            if (confirm("तुम्हाला सर्व डेटा सुरुवातीच्या मूळ स्थितीत आणायचा आहे का?")) {
+                ['sai_contact','sai_whatsapp','sai_categories','sai_banners','sai_promos','sai_products','sai_orders'].forEach(k => localStorage.removeItem(k));
+                appState.contact = DEFAULT_CONTACT;
+                appState.whatsapp = DEFAULT_WHATSAPP;
+                appState.categories = DEFAULT_CATEGORIES;
+                appState.banners = DEFAULT_BANNERS;
+                appState.promoBanners = DEFAULT_PROMO_BANNERS;
+                appState.products = DEFAULT_PRODUCTS;
+                appState.orders = [];
+                saveState();
+                init();
+                alert("डेटा यशस्वीरित्या रिसेट झाला!");
+            }
+        }
+
+        // INITIALIZE APPLICATION
+        function init() {
+            renderCategories();
+            renderHeroBanners();
+            renderPromoBanners();
+            renderStorefront();
+            populateCategoryDropdown();
+            updateOrderBadge();
+            updateContactLinks();
+        }
+
+        function updateContactLinks() {
+            document.querySelectorAll('a[href^="tel:"]').forEach(a => a.href = 'tel:' + appState.contact);
+            const footerPhone = document.querySelector('footer a[href^="tel:"]');
+            if (footerPhone) footerPhone.innerHTML = '<i class="fas fa-phone-alt text-fkYellow"></i> चौकशी: ' + appState.contact;
+        }
+
+        function syncMobileSearch(val) {
+            const deskInput = document.getElementById('searchInput');
+            if (deskInput) {
+                deskInput.value = val;
+                renderStorefront();
+            }
+        }
+
+        function updateOrderBadge() {
+            const count = appState.orders.length;
+            const badge = document.getElementById('orderBadgeCount');
+            if (badge) badge.innerText = count;
+        }
+
+        // PASSWORD PROTECTION & MODAL HANDLERS
+        function openPasswordModal() {
+            if (appState.isAdminLoggedIn) {
+                switchTab('admin');
+            } else {
+                document.getElementById('adminPinInput').value = '';
+                document.getElementById('passwordError').classList.add('hidden');
+                document.getElementById('passwordModal').classList.remove('hidden');
+                setTimeout(() => document.getElementById('adminPinInput').focus(), 100);
+            }
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.add('hidden');
+        }
+
+        function verifyAdminPassword(e) {
+            e.preventDefault();
+            const inputPin = document.getElementById('adminPinInput').value.trim();
+            if (inputPin === ADMIN_PIN) {
+                appState.isAdminLoggedIn = true;
+                closePasswordModal();
+                switchTab('admin');
+            } else {
+                document.getElementById('passwordError').classList.remove('hidden');
+            }
+        }
+
+        function logoutAdmin() {
+            appState.isAdminLoggedIn = false;
+            switchTab('storefront');
+            alert("ॲडमिन पॅनेल सुरक्षितपणे लॉक करण्यात आले आहे.");
+        }
+
+        // SWITCH TAB (STORE vs ADMIN)
+        function switchTab(tab) {
+            const store = document.getElementById('storefrontView');
+            const admin = document.getElementById('adminView');
+            
+            if (tab === 'admin' && !appState.isAdminLoggedIn) {
+                openPasswordModal();
+                return;
+            }
+
+            if (tab === 'storefront') {
+                store.classList.remove('hidden');
+                admin.classList.add('hidden');
+            } else {
+                store.classList.add('hidden');
+                admin.classList.remove('hidden');
+                renderAdminAll();
+            }
+        }
+
+        // PRODUCT DETAILS FULL MODAL (CLICK ON ANY PRODUCT)
+        function openProductModal(productId) {
+            const p = appState.products.find(item => item.id === productId);
+            if (!p) return;
+
+            const isOutOfStock = p.stock === 'Out of Stock';
+            const modalContent = document.getElementById('modalContent');
+
+            modalContent.innerHTML = `
+                <!-- Product Image Section -->
+                <div class="flex flex-col items-center justify-center bg-gray-50 p-4 rounded-lg border relative">
+                    <span class="absolute top-2 left-2 bg-green-600 text-white font-extrabold text-xs px-2 py-0.5 rounded shadow">
+                        ${p.discount}
+                    </span>
+                    <img id="productModalMainImage" src="${p.image}" alt="${p.title}" class="max-h-64 sm:max-h-80 object-contain my-auto" onerror="this.src='https://placehold.co/400x400?text=Sai+Electronics'">
+                    <div class="flex flex-wrap justify-center gap-2 mt-3">
+                        ${(Array.from(new Set([p.image, ...(Array.isArray(p.images) ? p.images : [])].filter(Boolean))).slice(0,4)).map((photo, idx) => `
+                            <button type="button" onclick="document.getElementById('productModalMainImage').src=this.dataset.photo" data-photo="${photo}" class="border rounded p-1 bg-white hover:border-blue-500">
+                                <img src="${photo}" alt="Product photo ${idx+1}" class="w-12 h-12 object-contain" onerror="this.style.display='none'">
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Product Full Details Section -->
+                <div class="space-y-3 flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-fkBlue bg-blue-50 px-2 py-0.5 rounded border border-blue-200 uppercase">${p.category}</span>
+                        
+                        <h2 class="text-base sm:text-lg font-extrabold text-gray-900 mt-1 leading-snug">${p.title}</h2>
+
+                        <!-- Rating & Stock -->
+                        <div class="flex items-center gap-3 mt-2">
+                            <span class="bg-green-700 text-white text-xs font-extrabold px-2 py-0.5 rounded flex items-center gap-1">
+                                ${p.rating || 4.5} <i class="fas fa-star text-[10px]"></i>
+                            </span>
+                            <span class="text-xs font-bold ${isOutOfStock ? 'text-red-600 bg-red-50' : 'text-green-700 bg-green-50'} px-2 py-0.5 rounded border">
+                                ${p.stock || 'In Stock'}
+                            </span>
+                        </div>
+
+                        <!-- Price Info -->
+                        <div class="flex items-baseline gap-2 mt-3 bg-gray-50 p-2.5 rounded border">
+                            <span class="text-xl sm:text-2xl font-black text-gray-900">₹${Number(p.price).toLocaleString('en-IN')}</span>
+                            <span class="text-sm text-gray-400 line-through">MRP ₹${Number(p.mrp).toLocaleString('en-IN')}</span>
+                            <span class="text-xs font-bold text-green-700">(${p.discount})</span>
+                        </div>
+
+                        <!-- Capacity & Warranty Key Specs -->
+                        <div class="grid grid-cols-2 gap-2 mt-3 text-xs">
+                            ${p.capacity ? `
+                                <div class="bg-blue-50/70 p-2 rounded border border-blue-100">
+                                    <span class="text-gray-500 block text-[10px]">कॅपॅसिटी / साईझ:</span>
+                                    <strong class="text-gray-800">${p.capacity}</strong>
+                                </div>
+                            ` : ''}
+                            ${p.warranty ? `
+                                <div class="bg-blue-50/70 p-2 rounded border border-blue-100">
+                                    <span class="text-gray-500 block text-[10px]">वॉरंटी (Warranty):</span>
+                                    <strong class="text-gray-800">${p.warranty}</strong>
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <!-- Full Detailed Specifications -->
+                        <div class="mt-4">
+                            <h4 class="text-xs font-extrabold text-gray-800 uppercase tracking-wider mb-1 flex items-center gap-1">
+                                <i class="fas fa-list-ul text-fkBlue"></i> संपूर्ण वैशिष्‍ट्ये (Full Specifications):
+                            </h4>
+                            <div class="bg-gray-50 p-3 rounded text-xs text-gray-700 leading-relaxed whitespace-pre-line border max-h-36 overflow-y-auto">
+                                ${p.specs || 'या प्रॉडक्टचे विस्तृत तपशील साई इलेक्ट्रॉनिक फैजपूर येथे उपलब्ध आहेत.'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Action Buttons inside Details -->
+                    <div class="space-y-2 pt-3 border-t">
+                        <button onclick="closeProductModal(); openProductOrderModal('${p.id}');" ${isOutOfStock ? 'disabled' : ''} class="w-full font-bold text-xs sm:text-sm py-2.5 rounded-md flex items-center justify-center gap-2 transition ${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-fkYellow hover:bg-yellow-400 text-gray-900 shadow'}">
+                            <i class="fab fa-whatsapp text-lg text-green-700"></i>
+                            <span>ऑर्डर करा / Buy Now (WhatsApp Order Form)</span>
+                        </button>
+
+                        <a href="tel:${appState.contact || DEFAULT_CONTACT}" class="w-full bg-fkBlue hover:bg-fkBlueDark text-white font-bold text-xs sm:text-sm py-2.5 rounded-md flex items-center justify-center gap-2 shadow transition">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>चौकशीसाठी कॉल करा (${appState.contact || DEFAULT_CONTACT})</span>
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('productDetailModal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productDetailModal').classList.add('hidden');
+        }
+
+        // RENDER CATEGORIES
+        function renderCategories() {
+            const container = document.getElementById('categoryContainer');
+            let html = `
+                <div onclick="filterByCategory('All')" class="flex flex-col items-center min-w-[70px] cursor-pointer group">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-100 flex items-center justify-center border-2 border-fkBlue shadow-sm group-hover:scale-105 transition">
+                        <i class="fas fa-th-large text-fkBlue text-lg sm:text-xl"></i>
+                    </div>
+                    <span class="text-[11px] font-bold text-gray-700 mt-1.5 text-center">सर्व वस्तू</span>
+                </div>
+            `;
+            appState.categories.forEach(cat => {
+                html += `
+                    <div onclick="filterByCategory('${cat.name}')" class="flex flex-col items-center min-w-[70px] cursor-pointer group">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-100 overflow-hidden border border-gray-200 shadow-sm group-hover:scale-105 transition">
+                            <img src="${cat.image}" alt="${cat.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100?text=Cat'">
+                        </div>
+                        <span class="text-[11px] font-semibold text-gray-700 mt-1.5 text-center line-clamp-1">${cat.name}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // FILTER BY CATEGORY
+        function filterByCategory(catName) {
+            appState.currentCategory = catName;
+            document.getElementById('currentCategoryTitle').innerText = catName === 'All' ? 'सर्व प्रॉडक्ट्स (All Products)' : catName;
+            renderStorefront();
+        }
+
+        // HERO BANNER CAROUSEL RENDER
+        function renderHeroBanners() {
+            const container = document.getElementById('bannerSlider');
+            if (appState.banners.length === 0) {
+                container.innerHTML = `<div class="p-8 text-center text-white">कोणतेही बॅनर जोडलेले नाहीत.</div>`;
+                return;
+            }
+            let html = "";
+            appState.banners.forEach((b, idx) => {
+                const active = idx === appState.currentBannerIndex ? 'opacity-100 z-10' : 'opacity-0 z-0';
+                html += `
+                    <div class="absolute inset-0 transition-opacity duration-700 ease-in-out ${active}">
+                        <img src="${b.image}" class="w-full h-full object-cover brightness-75" onerror="this.src='https://placehold.co/800x400?text=Sai+Electronics+Offer'">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex flex-col justify-end p-4 sm:p-8 text-white">
+                            <span class="bg-fkYellow text-gray-900 font-extrabold text-[10px] sm:text-xs px-2 py-0.5 rounded w-fit mb-1 uppercase shadow">विशेष ऑफर - फैजपूर</span>
+                            <h2 class="text-lg sm:text-2xl md:text-3xl font-black drop-shadow">${b.title}</h2>
+                            <p class="text-xs sm:text-base text-gray-200 mt-1 font-medium">${b.subtitle}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function nextBanner() {
+            if (appState.banners.length === 0) return;
+            appState.currentBannerIndex = (appState.currentBannerIndex + 1) % appState.banners.length;
+            renderHeroBanners();
+        }
+
+        function prevBanner() {
+            if (appState.banners.length === 0) return;
+            appState.currentBannerIndex = (appState.currentBannerIndex - 1 + appState.banners.length) % appState.banners.length;
+            renderHeroBanners();
+        }
+
+        // PROMO BANNERS RENDER
+        function renderPromoBanners() {
+            const container = document.getElementById('offerBannerPromoContainer');
+            let html = "";
+            appState.promoBanners.forEach(pb => {
+                html += `
+                    <div class="bg-gradient-to-r ${pb.bg} rounded-md p-4 text-white flex items-center justify-between shadow">
+                        <div class="space-y-1 pr-2">
+                            <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded uppercase font-bold tracking-wider">साई इलेक्ट्रॉनिक्स ऑफर</span>
+                            <h3 class="font-bold text-sm sm:text-base leading-tight">${pb.title}</h3>
+                            <button onclick="openGeneralOrderModal('${pb.title}')" class="mt-2 bg-white text-gray-900 text-xs font-bold px-3 py-1 rounded shadow hover:bg-yellow-300 transition">
+                                अधिक जाणून घ्या / चौकशी करा
+                            </button>
+                        </div>
+                        <img src="${pb.image}" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-md border-2 border-white/40 shadow-sm flex-shrink-0" onerror="this.src='https://placehold.co/200x200?text=Offer'">
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // RENDER PRODUCTS GRID FOR CUSTOMER
+        function renderStorefront() {
+            const grid = document.getElementById('productGrid');
+            const searchQuery = (document.getElementById('searchInput')?.value || "").toLowerCase();
+            const sortBy = document.getElementById('sortSelect')?.value || "default";
+
+            let filtered = appState.products.filter(p => {
+                const matchesCat = appState.currentCategory === "All" || p.category === appState.currentCategory;
+                const matchesSearch = (p.title || '').toLowerCase().includes(searchQuery) || (p.specs || '').toLowerCase().includes(searchQuery);
+                return matchesCat && matchesSearch;
+            });
+
+            // Sorting logic
+            if (sortBy === 'priceLow') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortBy === 'priceHigh') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (sortBy === 'discount') {
+                filtered.sort((a, b) => {
+                    const dA = parseInt(a.discount) || 0;
+                    const dB = parseInt(b.discount) || 0;
+                    return dB - dA;
+                });
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full bg-white p-8 rounded text-center text-gray-500 shadow-sm">
+                        <i class="fas fa-box-open text-4xl mb-2 text-gray-300"></i>
+                        <p class="font-bold">एकही प्रॉडक्ट सापडले नाही!</p>
+                        <p class="text-xs">कृपया सर्च किंवा कॅटेगरी फिल्टर बदलून पहा.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = "";
+            filtered.forEach(p => {
+                const isOutOfStock = p.stock === 'Out of Stock';
+                html += `
+                    <div class="bg-white rounded-md shadow hover:shadow-lg transition flex flex-col justify-between overflow-hidden border border-gray-100 group relative">
+                        
+                        <!-- Badges -->
+                        <div class="absolute top-2 left-2 z-10 flex flex-col gap-1">
+                            <span class="bg-green-600 text-white font-bold text-[10px] px-1.5 py-0.5 rounded shadow-sm">
+                                ${p.discount}
+                            </span>
+                            ${isOutOfStock ? `<span class="bg-red-600 text-white font-bold text-[9px] px-1.5 py-0.5 rounded shadow-sm">Out of Stock</span>` : ''}
+                        </div>
+
+                        <!-- Clickable Image Container -> Triggers Detail Modal -->
+                        <div onclick="openProductModal('${p.id}')" class="w-full h-40 sm:h-48 p-3 bg-white flex items-center justify-center overflow-hidden cursor-pointer">
+                            <img src="${p.image}" alt="${p.title}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300" onerror="this.src='https://placehold.co/300x300?text=Sai+Electronics'">
+                        </div>
+
+                        <!-- Details Section -->
+                        <div class="p-3 flex-1 flex flex-col justify-between border-t border-gray-50">
+                            <div>
+                                <h3 onclick="openProductModal('${p.id}')" class="text-xs sm:text-sm font-semibold text-gray-800 line-clamp-2 hover:text-fkBlue cursor-pointer leading-snug">
+                                    ${p.title}
+                                </h3>
+
+                                <!-- Rating & Warranty Badges -->
+                                <div class="flex items-center gap-2 mt-1.5 flex-wrap">
+                                    <span class="bg-green-700 text-white text-[10px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5">
+                                        ${p.rating || 4.5} <i class="fas fa-star text-[8px]"></i>
+                                    </span>
+                                    ${p.capacity ? `<span class="text-[10px] text-gray-500 font-medium bg-gray-100 px-1 rounded line-clamp-1">${p.capacity}</span>` : ''}
+                                </div>
+
+                                ${p.warranty ? `
+                                    <p class="text-[10px] text-gray-500 mt-1 font-medium line-clamp-1">
+                                        <i class="fas fa-shield-alt text-fkBlue mr-0.5"></i> ${p.warranty}
+                                    </p>
+                                ` : ''}
+                            </div>
+
+                            <!-- Price Section -->
+                            <div class="mt-3">
+                                <div class="flex items-baseline gap-1.5">
+                                    <span class="text-sm sm:text-base font-extrabold text-gray-900">₹${Number(p.price).toLocaleString('en-IN')}</span>
+                                    <span class="text-xs text-gray-400 line-through">₹${Number(p.mrp).toLocaleString('en-IN')}</span>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="space-y-1 mt-2">
+                                    <button onclick="addToCart('${p.id}')" ${isOutOfStock ? 'disabled' : ''} class="w-full font-bold text-xs py-1.5 rounded flex items-center justify-center gap-1.5 transition ${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm'}">
+                                        <i class="fas fa-cart-plus"></i><span>Add to Cart</span>
+                                    </button>
+                                    <!-- Customer Order Modal Button -->
+                                    <button onclick="openProductOrderModal('${p.id}')" ${isOutOfStock ? 'disabled' : ''} class="w-full font-bold text-xs py-1.5 rounded flex items-center justify-center gap-1.5 transition ${isOutOfStock ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-fkYellow hover:bg-yellow-400 text-gray-900 shadow-sm'}">
+                                        <i class="fab fa-whatsapp text-sm text-green-700"></i>
+                                        <span>WhatsApp खरेदी</span>
+                                    </button>
+
+                                    <!-- Direct Call Button -->
+                                    <a href="tel:${appState.contact || DEFAULT_CONTACT}" class="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold text-[11px] py-1 rounded flex items-center justify-center gap-1">
+                                        <i class="fas fa-phone-alt text-fkBlue text-[10px]"></i>
+                                        <span>चौकशी कॉल करा</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                `;
+            });
+            grid.innerHTML = html;
+        }
+
+        // CUSTOMER ORDER FORM MODAL LOGIC
+        // Cart state is saved in this browser
+        let saiCart = [];
+        try { saiCart = JSON.parse(localStorage.getItem('sai_cart') || '[]'); if (!Array.isArray(saiCart)) saiCart = []; } catch(e) { saiCart = []; }
+        function saveCart() { try { localStorage.setItem('sai_cart', JSON.stringify(saiCart)); } catch(e) {} updateCartCount(); }
+        function updateCartCount() {
+            const el = document.getElementById('cartCount');
+            if (el) el.textContent = saiCart.reduce((n,x) => n + (Number(x.qty)||0), 0);
+        }
+        function addToCart(id) {
+            const p = appState.products.find(x => String(x.id) === String(id));
+            if (!p) { alert('प्रॉडक्ट सापडले नाही. पेज Refresh करा.'); return; }
+            if (Number(p.stock) <= 0) { alert('हा प्रॉडक्ट उपलब्ध नाही.'); return; }
+            const item = saiCart.find(x => String(x.id) === String(id));
+            if (item) item.qty = Math.min((Number(item.qty)||1)+1, Number(p.stock)||99);
+            else saiCart.push({id:p.id, qty:1});
+            saveCart();
+            alert('प्रॉडक्ट Cart मध्ये जोडले आहे.');
+        }
+        function changeCartQty(id, delta) {
+            const item = saiCart.find(x => String(x.id) === String(id));
+            const p = appState.products.find(x => String(x.id) === String(id));
+            if (!item || !p) return;
+            item.qty = Math.max(1, Math.min((Number(item.qty)||1)+delta, Number(p.stock)||99));
+            saveCart(); renderCartItems();
+        }
+        function removeCartItem(id) { saiCart = saiCart.filter(x => String(x.id)!==String(id)); saveCart(); renderCartItems(); }
+        function renderCartItems() {
+            const box = document.getElementById('cartItems'); if (!box) return;
+            let total = 0;
+            const rows = saiCart.map(item => {
+                const p = appState.products.find(x => String(x.id)===String(item.id)); if (!p) return '';
+                const qty = Number(item.qty)||1, price = Number(p.price)||0; total += qty*price;
+                return `<div class="flex gap-3 items-center border rounded-lg p-2"><img src="${p.image||''}" class="w-16 h-16 object-contain bg-gray-50 rounded" alt=""><div class="flex-1 min-w-0"><p class="font-bold text-sm truncate">${p.title}</p><p class="text-green-700 font-extrabold">₹${price.toLocaleString('en-IN')}</p><div class="flex items-center gap-2 mt-1"><button onclick="changeCartQty('${p.id}',-1)" class="border rounded px-2">−</button><b>${qty}</b><button onclick="changeCartQty('${p.id}',1)" class="border rounded px-2">+</button><button onclick="removeCartItem('${p.id}')" class="text-red-600 text-xs ml-2">काढा</button></div></div></div>`;
+            }).join('');
+            box.innerHTML = rows || '<p class="text-center text-gray-500 py-8">तुमची Cart रिकामी आहे.</p>';
+            document.getElementById('cartTotal').textContent = '₹'+total.toLocaleString('en-IN');
+        }
+        function openCartModal() { renderCartItems(); const el=document.getElementById('cartModal'); el.classList.remove('hidden'); el.classList.add('flex'); }
+        function closeCartModal() { const el=document.getElementById('cartModal'); el.classList.add('hidden'); el.classList.remove('flex'); }
+        function checkoutCart() {
+            if (!saiCart.length) { alert('आधी Cart मध्ये प्रॉडक्ट जोडा.'); return; }
+            const lines = saiCart.map(item => { const p=appState.products.find(x=>String(x.id)===String(item.id)); return p ? `${p.title} × ${item.qty} = ₹${((Number(p.price)||0)*Number(item.qty)).toLocaleString('en-IN')}` : ''; }).filter(Boolean);
+            const total = saiCart.reduce((sum,item)=>{const p=appState.products.find(x=>String(x.id)===String(item.id));return sum+(p?(Number(p.price)||0)*Number(item.qty):0)},0);
+            document.getElementById('orderProductId').value='CART';
+            document.getElementById('modalProductBrief').innerHTML='<div class="bg-green-50 p-3 rounded-lg text-sm"><b>Cart मधील ऑर्डर</b><br>'+lines.join('<br>')+'<hr class="my-2"><b>एकूण: ₹'+total.toLocaleString('en-IN')+'</b></div>';
+            closeCartModal(); document.getElementById('customerOrderModal').classList.remove('hidden');
+        }
+        updateCartCount();
+
+        function openProductOrderModal(productId) {
+            const product = appState.products.find(p => p.id === productId);
+            if (!product) return;
+
+            document.getElementById('orderProductId').value = product.id;
+            const brief = document.getElementById('modalProductBrief');
+            brief.innerHTML = `
+                <img src="${product.image}" class="w-12 h-12 object-contain border rounded bg-white" onerror="this.src='https://placehold.co/100x100?text=Product'">
+                <div>
+                    <h4 class="font-bold text-gray-800 line-clamp-1">${product.title}</h4>
+                    <p class="text-green-700 font-extrabold">₹${Number(product.price).toLocaleString('en-IN')} <span class="text-gray-400 font-normal line-through text-[10px]">₹${Number(product.mrp).toLocaleString('en-IN')}</span></p>
+                </div>
+            `;
+            document.getElementById('customerOrderModal').classList.remove('hidden');
+        }
+
+        function openGeneralOrderModal(customTitle = "साई इलेक्ट्रॉनिक प्रॉडक्ट चौकशी") {
+            document.getElementById('orderProductId').value = "GENERAL";
+            const brief = document.getElementById('modalProductBrief');
+            brief.innerHTML = `
+                <div class="w-10 h-10 bg-blue-100 text-fkBlue font-black rounded flex items-center justify-center text-lg">SE</div>
+                <div>
+                    <h4 class="font-bold text-gray-800">${customTitle}</h4>
+                    <p class="text-gray-500 text-[11px]">साई इलेक्ट्रॉनिक फैजपूर ग्राहक सेवा</p>
+                </div>
+            `;
+            document.getElementById('customerOrderModal').classList.remove('hidden');
+        }
+
+        function closeCustomerOrderModal() {
+            document.getElementById('customerOrderModal').classList.add('hidden');
+        }
+
+        // SUBMIT ORDER (SAVE TO LOCALSTORAGE ADMIN TAB & OPEN WHATSAPP HIDDEN 9975312904)
+        function submitCustomerOrder(e) {
+            e.preventDefault();
+            const prodId = document.getElementById('orderProductId').value;
+            const custName = document.getElementById('custName').value.trim();
+            const custPhone = document.getElementById('custPhone').value.trim();
+            const custAddress = document.getElementById('custAddress').value.trim();
+            const custNote = document.getElementById('custNote').value.trim();
+
+            let productDetails = null;
+            let productTitle = "सामान्य चौकशी / स्पेशल ऑर्डर";
+            let priceText = "N/A";
+            let cartLines = [];
+            if (prodId === "CART") {
+                cartLines = saiCart.map(item => { const p=appState.products.find(x=>String(x.id)===String(item.id)); return p ? `${p.title} × ${item.qty} = ₹${((Number(p.price)||0)*Number(item.qty)).toLocaleString('en-IN')}` : ''; }).filter(Boolean);
+                const total = saiCart.reduce((sum,item)=>{const p=appState.products.find(x=>String(x.id)===String(item.id));return sum+(p?(Number(p.price)||0)*Number(item.qty):0)},0);
+                productTitle = cartLines.join(' | ') || 'Cart Order';
+                priceText = `₹${total.toLocaleString('en-IN')}`;
+            } else if (prodId !== "GENERAL") {
+                productDetails = appState.products.find(p => p.id === prodId);
+                if (productDetails) {
+                    productTitle = productDetails.title;
+                    priceText = `₹${Number(productDetails.price).toLocaleString('en-IN')} (MRP: ₹${Number(productDetails.mrp).toLocaleString('en-IN')})`;
+                }
+            }
+
+            const newOrder = {
+                id: "ORD_" + Date.now(),
+                date: new Date().toLocaleString('mr-IN', { dateStyle: 'medium', timeStyle: 'short' }),
+                custName,
+                custPhone,
+                custAddress,
+                custNote,
+                productTitle,
+                priceText,
+                productId: prodId
+            };
+
+            // Save order to LocalStorage for Admin
+            appState.orders.unshift(newOrder);
+            saveState();
+            updateOrderBadge();
+
+            // Format WhatsApp Message
+            let whatsappText = `*नवीन ऑर्डर - साई इलेक्ट्रॉनिक फैजपूर*\n\n`;
+            whatsappText += `👤 *ग्राहक नाव:* ${custName}\n`;
+            whatsappText += `📞 *मोबाईल नंबर:* ${custPhone}\n`;
+            whatsappText += `🏠 *डिलिव्हरी पत्ता:* ${custAddress}\n`;
+            if (custNote) whatsappText += `📝 *टीप:* ${custNote}\n`;
+            whatsappText += `\n🛒 *प्रॉडक्ट:* ${productTitle}\n`;
+            if (prodId === "CART" && cartLines.length) whatsappText += `\n*Cart Items:*\n${cartLines.join('\n')}\n`;
+            whatsappText += `💰 *किंमत:* ${priceText}\n`;
+            if (productDetails && productDetails.capacity) whatsappText += `📦 *कॅपॅसिटी/साईझ:* ${productDetails.capacity}\n`;
+            if (productDetails && productDetails.warranty) whatsappText += `🛡️ *वॉरंटी:* ${productDetails.warranty}\n`;
+            if (productDetails && productDetails.discount) whatsappText += `🏷️ *ऑफर/डिस्काउंट:* ${productDetails.discount}\n`;
+            whatsappText += `\nकृपया ही ऑर्डर कन्फर्म करावी. धन्यवाद!`;
+
+            // Hidden target WhatsApp number (defaults to 9975312904)
+            // Merchant WhatsApp number is the private message destination; it is not shown on the customer storefront.
+            const targetNum = String(appState.whatsapp || DEFAULT_WHATSAPP).replace(/\D/g, '').replace(/^91/, '');
+            const waUrl = `https://wa.me/91${targetNum}?text=${encodeURIComponent(whatsappText)}`;
+            
+            closeCustomerOrderModal();
+            const waWindow = window.open(waUrl, '_blank');
+            if (prodId === "CART") { saiCart = []; saveCart(); }
+            if (!waWindow) alert('WhatsApp उघडता आले नाही. Browser मध्ये pop-up परवानगी द्या. ऑर्डर Admin मध्ये सेव्ह झाली आहे.');
+        }
+
+        // ================= ADMIN PANEL FUNCTIONS =================
+
+        function switchAdminSubTab(tabId) {
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                btn.classList.remove('border-fkBlue', 'text-fkBlue');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-transparent', 'text-gray-500');
+                activeBtn.classList.add('border-fkBlue', 'text-fkBlue');
+            }
+
+            document.getElementById('subtab-orders').classList.add('hidden');
+            document.getElementById('subtab-manage-products').classList.add('hidden');
+            document.getElementById('subtab-manage-categories').classList.add('hidden');
+            document.getElementById('subtab-manage-banners').classList.add('hidden');
+            document.getElementById('subtab-manage-settings').classList.add('hidden');
+
+            document.getElementById(`subtab-${tabId}`).classList.remove('hidden');
+        }
+
+        function renderAdminAll() {
+            renderAdminOrdersTable();
+            renderAdminProductsTable();
+            renderAdminCategories();
+            renderAdminBanners();
+            populateCategoryDropdown();
+            
+            document.getElementById('settingContact').value = appState.contact;
+            document.getElementById('settingWhatsapp').value = appState.whatsapp;
+        }
+
+        // RENDER ADMIN ORDERS TABLE
+        function renderAdminOrdersTable() {
+            const tbody = document.getElementById('adminOrdersTable');
+            if (!tbody) return;
+
+            if (appState.orders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="p-6 text-center text-gray-500 italic">
+                            अजून एकही ग्राहक ऑर्डर प्राप्त झालेली नाही.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            let html = "";
+            appState.orders.forEach(o => {
+                html += `
+                    <tr class="border-b hover:bg-gray-50 text-xs sm:text-sm">
+                        <td class="p-2.5 font-medium text-gray-500 whitespace-nowrap">${o.date}</td>
+                        <td class="p-2.5 font-extrabold text-gray-900">${o.custName}</td>
+                        <td class="p-2.5 font-bold text-blue-700">
+                            <a href="tel:${o.custPhone}" class="hover:underline"><i class="fas fa-phone-alt text-[10px]"></i> ${o.custPhone}</a>
+                        </td>
+                        <td class="p-2.5 text-gray-700 max-w-xs">${o.custAddress} ${o.custNote ? `<br><span class="text-[10px] text-gray-400">टीप: ${o.custNote}</span>` : ''}</td>
+                        <td class="p-2.5 font-semibold text-gray-800">${o.productTitle}</td>
+                        <td class="p-2.5 font-bold text-green-700">${o.priceText}</td>
+                        <td class="p-2.5 text-center">
+                            <button onclick="deleteOrder('${o.id}')" class="bg-red-100 hover:bg-red-200 text-red-700 px-2 py-1 rounded text-xs font-bold transition">
+                                <i class="fas fa-trash"></i> डिलीट
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function deleteOrder(id) {
+            if (confirm("ही ऑर्डर रेकॉर्डमधून हटवायची का?")) {
+                appState.orders = appState.orders.filter(o => o.id !== id);
+                saveState();
+                renderAdminOrdersTable();
+                updateOrderBadge();
+            }
+        }
+
+        function clearAllOrders() {
+            if (confirm("सर्व प्राप्त ऑर्डर्स डिलीट करायच्या आहेत का?")) {
+                appState.orders = [];
+                saveState();
+                renderAdminOrdersTable();
+                updateOrderBadge();
+            }
+        }
+
+        function populateCategoryDropdown() {
+            const select = document.getElementById('prodCategory');
+            if (!select) return;
+            select.innerHTML = appState.categories.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+        }
+
+        // AUTO DISCOUNT CALCULATOR
+        function autoCalculateDiscount() {
+            const mrp = parseFloat(document.getElementById('prodMrp').value) || 0;
+            const price = parseFloat(document.getElementById('prodPrice').value) || 0;
+            const discountInput = document.getElementById('prodDiscount');
+
+            if (mrp > 0 && price > 0 && mrp > price) {
+                const pct = Math.round(((mrp - price) / mrp) * 100);
+                discountInput.value = `${pct}% OFF`;
+            } else {
+                discountInput.value = "0% OFF";
+            }
+        }
+
+        // BASE64 IMAGE FILE READER
+        function convertImageToBase64(fileInput, targetInputId) {
+            const file = fileInput.files && fileInput.files[0];
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                alert('कृपया फक्त फोटो फाइल निवडा.');
+                fileInput.value = '';
+                return;
+            }
+            if (file.size > 12 * 1024 * 1024) {
+                alert('फोटो 12 MB पेक्षा लहान निवडा.');
+                fileInput.value = '';
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                const img = new Image();
+                img.onload = function() {
+                    const maxSide = 1000;
+                    const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.max(1, Math.round(img.width * scale));
+                    canvas.height = Math.max(1, Math.round(img.height * scale));
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const compressed = canvas.toDataURL('image/jpeg', 0.78);
+                    document.getElementById(targetInputId).value = compressed;
+                    alert('फोटो अपलोड झाला. आता फॉर्म सेव्ह करा.');
+                };
+                img.onerror = () => alert('हा फोटो उघडता आला नाही. दुसरा फोटो निवडा.');
+                img.src = ev.target.result;
+            };
+            reader.onerror = () => alert('फोटो वाचता आला नाही. पुन्हा प्रयत्न करा.');
+            reader.readAsDataURL(file);
+        }
+
+        // PRODUCT ADD / EDIT HANDLER
+        function handleProductSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('prodId').value;
+            const title = document.getElementById('prodTitle').value;
+            const category = document.getElementById('prodCategory').value;
+            const mrp = parseFloat(document.getElementById('prodMrp').value);
+            const price = parseFloat(document.getElementById('prodPrice').value);
+            const discount = document.getElementById('prodDiscount').value || "0% OFF";
+            const capacity = document.getElementById('prodCapacity').value;
+            const warranty = document.getElementById('prodWarranty').value;
+            const stock = document.getElementById('prodStock').value;
+            const rating = parseFloat(document.getElementById('prodRating').value) || 4.5;
+            const image = document.getElementById('prodImage').value || "https://placehold.co/400x400?text=Sai+Electronics";
+            const images = [image, document.getElementById('prodImage2').value, document.getElementById('prodImage3').value, document.getElementById('prodImage4').value].filter(Boolean).slice(0, 4);
+            const specs = document.getElementById('prodSpecs').value;
+
+            if (id) {
+                // EDIT EXISTING
+                const index = appState.products.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    appState.products[index] = { ...appState.products[index], id, title, category, mrp, price, discount, capacity, warranty, stock, rating, image, images, specs };
+                }
+            } else {
+                // ADD NEW
+                const newProd = {
+                    id: "p_" + Date.now(),
+                    title, category, mrp, price, discount, capacity, warranty, stock, rating, image, images, specs
+                };
+                appState.products.unshift(newProd);
+            }
+
+            saveState();
+            renderStorefront();
+            renderAdminProductsTable();
+            resetProductForm();
+            alert("प्रॉडक्ट माहिती यशस्वीरित्या सेव्ह झाली!");
+        }
+
+        function resetProductForm() {
+            document.getElementById('productForm').reset();
+            document.getElementById('prodId').value = "";
+            ['prodImage2','prodImage3','prodImage4'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            document.getElementById('productFormTitle').querySelector('span').innerHTML = `<i class="fas fa-plus-circle text-fkBlue mr-1"></i> नवीन प्रॉडक्ट जोडा (Add Product)`;
+            document.getElementById('cancelEditBtn').classList.add('hidden');
+            document.getElementById('saveProdBtn').innerText = "प्रॉडक्ट सेव्ह करा";
+        }
+
+        function editProduct(id) {
+            const p = appState.products.find(item => item.id === id);
+            if (!p) return;
+
+            document.getElementById('prodId').value = p.id;
+            document.getElementById('prodTitle').value = p.title;
+            document.getElementById('prodCategory').value = p.category;
+            document.getElementById('prodMrp').value = p.mrp;
+            document.getElementById('prodPrice').value = p.price;
+            document.getElementById('prodDiscount').value = p.discount;
+            document.getElementById('prodCapacity').value = p.capacity || '';
+            document.getElementById('prodWarranty').value = p.warranty || '';
+            document.getElementById('prodStock').value = p.stock || 'In Stock';
+            document.getElementById('prodRating').value = p.rating || 4.5;
+            document.getElementById('prodImage').value = p.image || '';
+            const extraPhotos = (Array.isArray(p.images) ? p.images : []).filter(x => x && x !== p.image);
+            document.getElementById('prodImage2').value = extraPhotos[0] || '';
+            document.getElementById('prodImage3').value = extraPhotos[1] || '';
+            document.getElementById('prodImage4').value = extraPhotos[2] || '';
+            document.getElementById('prodSpecs').value = p.specs || '';
+
+            document.getElementById('productFormTitle').querySelector('span').innerHTML = `<i class="fas fa-edit text-fkBlue mr-1"></i> प्रॉडक्ट एडिट करा (#${p.id})`;
+            document.getElementById('cancelEditBtn').classList.remove('hidden');
+            document.getElementById('saveProdBtn').innerText = "बदल अपडेट करा";
+
+            window.scrollTo({ top: 100, behavior: 'smooth' });
+        }
+
+        function deleteProduct(id) {
+            if (confirm("तुम्हाला हे प्रॉडक्ट डिलीट करायचे आहे का?")) {
+                appState.products = appState.products.filter(p => p.id !== id);
+                saveState();
+                renderStorefront();
+                renderAdminProductsTable();
+            }
+        }
+
+        function renderAdminProductsTable() {
+            const tbody = document.getElementById('adminProductsTable');
+            if (!tbody) return;
+            let html = "";
+            appState.products.forEach(p => {
+                html += `
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-2">
+                            <img src="${p.image}" class="w-10 h-10 object-contain rounded border" onerror="this.src='https://placehold.co/100x100?text=No+Img'">
+                        </td>
+                        <td class="p-2 font-semibold text-gray-800 line-clamp-1 max-w-xs">${p.title}</td>
+                        <td class="p-2 text-gray-600">${p.category}</td>
+                        <td class="p-2 font-bold text-gray-900">₹${Number(p.price).toLocaleString('en-IN')}</td>
+                        <td class="p-2 text-gray-400 line-through">₹${Number(p.mrp).toLocaleString('en-IN')}</td>
+                        <td class="p-2">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${p.stock === 'In Stock' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                ${p.stock}
+                            </span>
+                        </td>
+                        <td class="p-2 text-center space-x-1">
+                            <button onclick="editProduct('${p.id}')" class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold hover:bg-blue-200">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button onclick="deleteProduct('${p.id}')" class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold hover:bg-red-200">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // CATEGORY ACTIONS: ADD / EDIT / DELETE
+        function handleCategorySubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('catId').value;
+            const name = document.getElementById('catName').value.trim();
+            const image = document.getElementById('catImage').value || "https://placehold.co/100x100?text=Category";
+            if (!name) return;
+            if (id) {
+                const old = appState.categories.find(c => c.id === id);
+                if (old) {
+                    const oldName = old.name;
+                    old.name = name; old.image = image;
+                    appState.products.forEach(p => { if (p.category === oldName) p.category = name; });
+                }
+            } else {
+                appState.categories.push({ id: "c_" + Date.now(), name, image });
+            }
+            saveState();
+            renderCategories(); renderAdminCategories(); populateCategoryDropdown(); renderStorefront();
+            resetCategoryForm();
+            alert(id ? "कॅटेगरी अपडेट झाली!" : "नवीन कॅटेगरी जोडली!");
+        }
+
+        function editCategory(id) {
+            const c = appState.categories.find(x => x.id === id);
+            if (!c) return;
+            document.getElementById('catId').value = c.id;
+            document.getElementById('catName').value = c.name;
+            document.getElementById('catImage').value = c.image || '';
+            document.getElementById('saveCatBtn').innerText = 'बदल अपडेट करा';
+            document.getElementById('cancelCatEditBtn').classList.remove('hidden');
+            document.getElementById('catName').scrollIntoView({behavior:'smooth', block:'center'});
+        }
+
+        function resetCategoryForm() {
+            document.getElementById('categoryForm').reset();
+            document.getElementById('catId').value = '';
+            document.getElementById('saveCatBtn').innerText = 'कॅटेगरी जोडा';
+            document.getElementById('cancelCatEditBtn').classList.add('hidden');
+        }
+
+        function deleteCategory(id) {
+            const c = appState.categories.find(x => x.id === id);
+            if (confirm("ही कॅटेगरी डिलीट करायची का?")) {
+                appState.categories = appState.categories.filter(c => c.id !== id);
+                // Products in this category are retained and moved to the first available category.
+                const fallback = appState.categories[0]?.name || 'Uncategorized';
+                appState.products.forEach(p => { if (p.category === c?.name) p.category = fallback; });
+                if (appState.currentCategory === c?.name) filterByCategory('All');
+                saveState();
+                renderCategories(); renderAdminCategories(); populateCategoryDropdown(); renderStorefront();
+            }
+        }
+
+        function renderAdminCategories() {
+            const grid = document.getElementById('adminCategoryGrid');
+            if (!grid) return;
+            grid.innerHTML = appState.categories.map(c => `
+                <div class="border rounded p-2 text-center relative group bg-gray-50">
+                    <img src="${c.image}" class="w-12 h-12 object-cover rounded-full mx-auto border" onerror="this.src='https://placehold.co/100x100?text=Cat'">
+                    <p class="text-xs font-bold text-gray-800 mt-2">${c.name}</p>
+                    <div class="flex justify-center gap-1 mt-2">
+                        <button onclick="editCategory('${c.id}')" class="text-[10px] bg-blue-100 text-blue-700 px-2 py-1 rounded font-bold">Edit</button>
+                        <button onclick="deleteCategory('${c.id}')" class="text-[10px] bg-red-100 text-red-600 px-2 py-1 rounded font-bold">Delete</button>
+                    </div>
+                </div>`).join('');
+        }
+
+        // HERO BANNER ACTIONS: ADD / EDIT / DELETE
+        function handleBannerSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('banId').value;
+            const title = document.getElementById('banTitle').value.trim();
+            const subtitle = document.getElementById('banSubtitle').value.trim();
+            const image = document.getElementById('banImage').value;
+            if (!image) { alert('कृपया बॅनर फोटो निवडा किंवा URL टाका.'); return; }
+            if (id) {
+                const b = appState.banners.find(x => x.id === id);
+                if (b) Object.assign(b, {title, subtitle, image});
+            } else appState.banners.push({ id: "b_" + Date.now(), title, subtitle, image });
+            saveState(); renderHeroBanners(); renderAdminBanners(); resetBannerForm();
+            alert(id ? "बॅनर अपडेट झाला!" : "स्लाइडर बॅनर जोडले गेले!");
+        }
+
+        function editBanner(id) {
+            const b = appState.banners.find(x => x.id === id); if (!b) return;
+            document.getElementById('banId').value = b.id;
+            document.getElementById('banTitle').value = b.title || '';
+            document.getElementById('banSubtitle').value = b.subtitle || '';
+            document.getElementById('banImage').value = b.image || '';
+            document.getElementById('saveBannerBtn').innerText = 'बॅनर अपडेट करा';
+            document.getElementById('cancelBannerEditBtn').classList.remove('hidden');
+            document.getElementById('banTitle').scrollIntoView({behavior:'smooth', block:'center'});
+        }
+
+        function resetBannerForm() {
+            document.getElementById('bannerForm').reset(); document.getElementById('banId').value = '';
+            document.getElementById('saveBannerBtn').innerText = 'स्लाइडर बॅनर जोडा';
+            document.getElementById('cancelBannerEditBtn').classList.add('hidden');
+        }
+
+        function deleteBanner(id) {
+            if (confirm("बॅनर डिलीट करायचे का?")) {
+                appState.banners = appState.banners.filter(b => b.id !== id);
+                appState.currentBannerIndex = 0;
+                saveState(); renderHeroBanners(); renderAdminBanners();
+            }
+        }
+
+        // PROMO BANNER ACTIONS: ADD / EDIT / DELETE
+        function handlePromoBannerSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('promoId').value;
+            const title = document.getElementById('promoTitle').value.trim();
+            const bg = document.getElementById('promoBg').value;
+            const image = document.getElementById('promoImage').value || "https://placehold.co/200x200?text=Promo";
+            if (id) {
+                const pb = appState.promoBanners.find(x => x.id === id);
+                if (pb) Object.assign(pb, {title, bg, image});
+            } else appState.promoBanners.push({ id: "pb_" + Date.now(), title, bg, image });
+            saveState(); renderPromoBanners(); renderAdminBanners(); resetPromoForm();
+            alert(id ? "ऑफर बॅनर अपडेट झाला!" : "ऑफर बॅनर जोडले गेले!");
+        }
+
+        function editPromoBanner(id) {
+            const pb = appState.promoBanners.find(x => x.id === id); if (!pb) return;
+            document.getElementById('promoId').value = pb.id;
+            document.getElementById('promoTitle').value = pb.title || '';
+            document.getElementById('promoBg').value = pb.bg || 'from-blue-600 to-indigo-800';
+            document.getElementById('promoImage').value = pb.image || '';
+            document.getElementById('savePromoBtn').innerText = 'ऑफर अपडेट करा';
+            document.getElementById('cancelPromoEditBtn').classList.remove('hidden');
+            document.getElementById('promoTitle').scrollIntoView({behavior:'smooth', block:'center'});
+        }
+
+        function resetPromoForm() {
+            document.getElementById('promoForm').reset(); document.getElementById('promoId').value = '';
+            document.getElementById('savePromoBtn').innerText = 'ऑफर बॅनर जोडा';
+            document.getElementById('cancelPromoEditBtn').classList.add('hidden');
+        }
+
+        function deletePromoBanner(id) {
+            if (confirm("हे ऑफर बॅनर डिलीट करायचे का?")) {
+                appState.promoBanners = appState.promoBanners.filter(pb => pb.id !== id);
+                saveState(); renderPromoBanners(); renderAdminBanners();
+            }
+        }
+
+        function renderAdminBanners() {
+            // Hero Banners
+            const heroContainer = document.getElementById('adminHeroBannerList');
+            if (heroContainer) {
+                let html = "";
+                appState.banners.forEach(b => {
+                    html += `
+                        <div class="border rounded overflow-hidden bg-gray-50 flex flex-col justify-between">
+                            <img src="${b.image}" class="h-28 w-full object-cover" onerror="this.src='https://placehold.co/400x200?text=Banner'">
+                            <div class="p-2">
+                                <p class="font-bold text-xs line-clamp-1">${b.title}</p>
+                                <p class="text-[10px] text-gray-500 line-clamp-1">${b.subtitle}</p>
+                                <div class="flex gap-1 mt-2">
+                                    <button onclick="editBanner('${b.id}')" class="flex-1 bg-blue-100 text-blue-700 py-1 rounded text-[11px] font-bold">Edit</button>
+                                    <button onclick="deleteBanner('${b.id}')" class="flex-1 bg-red-100 text-red-700 py-1 rounded text-[11px] font-bold">डिलीट</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                heroContainer.innerHTML = html;
+            }
+
+            // Promo Banners
+            const promoContainer = document.getElementById('adminPromoBannerList');
+            if (promoContainer) {
+                let html = "";
+                appState.promoBanners.forEach(pb => {
+                    html += `
+                        <div class="border rounded p-3 bg-gray-50 flex items-center justify-between">
+                            <div class="space-y-1">
+                                <p class="font-bold text-xs">${pb.title}</p>
+                                <div class="flex gap-1">
+                                    <button onclick="editPromoBanner('${pb.id}')" class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold">Edit</button>
+                                    <button onclick="deletePromoBanner('${pb.id}')" class="bg-red-100 text-red-700 px-2 py-0.5 rounded text-[10px] font-bold">डिलीट</button>
+                                </div>
+                            </div>
+                            <img src="${pb.image}" class="w-12 h-12 object-cover rounded border" onerror="this.src='https://placehold.co/100x100?text=Promo'">
+                        </div>
+                    `;
+                });
+                promoContainer.innerHTML = html;
+            }
+        }
+
+        // SETTINGS SUBMIT
+        function handleSettingsSubmit(e) {
+            e.preventDefault();
+            const contact = document.getElementById('settingContact').value;
+            const whatsapp = document.getElementById('settingWhatsapp').value;
+
+            appState.contact = contact;
+            appState.whatsapp = whatsapp;
+            saveState();
+            updateContactLinks();
+            alert("संपर्क माहिती यशस्वीरित्या सेव्ह झाली!");
+        }
+
+        // ON LOAD INITIALIZATION
+        window.onload = function() {
+            init();
+
+            // Auto Banner Carousel Slider
+            setInterval(() => {
+                nextBanner();
+            }, 5000);
+        };
+    </script>
+</body>
+</html>
