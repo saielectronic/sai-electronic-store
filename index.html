@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="TJeffOHJ4Gqv2-e7_Dct_rUpaRFeZF-FTChVgg2GoI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>साई इलेक्ट्रॉनिक फैजपूर - Sai Electronics Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fkBlue: '#2874f0',
+                        fkBlueDark: '#1a58bd',
+                        fkYellow: '#ffe11b',
+                        fkOrange: '#fb641b',
+                        fkGreen: '#388e3c'
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f1f3f6; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-fkBlue text-white sticky top-0 z-40 shadow-md">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="switchTab('storefront')">
+                <div class="bg-white text-fkBlue font-black rounded-lg px-2.5 py-1 text-lg italic shadow">SE</div>
+                <div>
+                    <div class="font-extrabold text-sm sm:text-lg leading-tight flex items-center gap-1">
+                        <span>साई इलेक्ट्रॉनिक</span>
+                        <span class="bg-fkYellow text-gray-900 text-[10px] font-bold px-1.5 py-0.5 rounded">फैजपूर</span>
+                    </div>
+                    <div class="text-[10px] text-blue-100">आठवडे बाजार, राजकमल कलेक्शन जवळ</div>
+                </div>
+            </div>
+
+            <div class="hidden md:block flex-1 max-w-md mx-3">
+                <input id="searchInput" type="text" oninput="renderStorefront()" placeholder="टीव्ही, फ्रिज, वॉशिंग मशीन, एसी शोधा..."
+                       class="w-full py-1.5 px-3 rounded text-gray-900 text-sm focus:outline-none">
+            </div>
+
+            <div class="flex items-center gap-2 text-xs sm:text-sm font-bold">
+                <button onclick="openCartModal()" class="relative bg-white text-fkBlue px-2.5 py-1.5 rounded shadow">
+                    <i class="fas fa-shopping-cart"></i> Cart
+                    <span id="cartCount" class="ml-1 bg-red-600 text-white text-[10px] px-1.5 py-0.5 rounded-full">0</span>
+                </button>
+                <button onclick="openGeneralOrderModal()" class="bg-fkGreen text-white px-2.5 py-1.5 rounded shadow">
+                    <i class="fab fa-whatsapp"></i> <span class="hidden sm:inline">WhatsApp</span>
+                </button>
+                <button onclick="openPasswordModal()" class="bg-fkYellow text-gray-900 px-2.5 py-1.5 rounded shadow">
+                    <i class="fas fa-lock"></i> ॲडमिन
+                </button>
+            </div>
+        </div>
+
+        <div class="px-3 pb-2 md:hidden">
+            <input id="mobileSearchInput" type="text" oninput="syncSearch(this.value)" placeholder="प्रॉडक्ट शोधा (TV, Fridge, AC)..."
+                   class="w-full py-1.5 px-3 rounded text-gray-900 text-xs focus:outline-none">
+        </div>
+    </header>
+
+    <!-- STOREFRONT -->
+    <main id="storefrontView" class="flex-1 max-w-7xl w-full mx-auto px-2 sm:px-6 py-3 space-y-4">
+        <section class="bg-white rounded-md shadow-sm p-2.5">
+            <div id="categoryContainer" class="flex items-center gap-3 sm:gap-5 overflow-x-auto no-scrollbar py-1"></div>
+        </section>
+
+        <section class="relative rounded-md overflow-hidden shadow bg-gradient-to-r from-fkBlue to-blue-900 text-white min-h-[160px] sm:min-h-[210px] flex items-center">
+            <div id="bannerContent" class="p-5 sm:p-8 space-y-2 max-w-2xl"></div>
+            <div class="ml-auto pr-4 flex gap-2">
+                <button onclick="prevBanner()" class="bg-white/90 text-gray-900 w-8 h-8 rounded-full font-bold shadow"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="nextBanner()" class="bg-white/90 text-gray-900 w-8 h-8 rounded-full font-bold shadow"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </section>
+
+        <section id="offerBannerPromoContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></section>
+
+        <section class="bg-white rounded-md shadow-sm p-3 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+                <h2 id="currentCategoryTitle" class="text-sm sm:text-lg font-extrabold text-gray-900">सर्व प्रॉडक्ट्स</h2>
+                <span id="liveSyncBadge" class="text-[10px] font-bold bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
+                    <i class="fas fa-circle text-[7px] mr-1"></i>Live Sync
+                </span>
+            </div>
+            <select id="sortSelect" onchange="renderStorefront()" class="border rounded px-2 py-1 text-xs sm:text-sm bg-white">
+                <option value="default">निवडक (Featured)</option>
+                <option value="priceLow">किंमत: कमी ते जास्त</option>
+                <option value="priceHigh">किंमत: जास्त ते कमी</option>
+            </select>
+        </section>
+
+        <section id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4"></section>
+    </main>
+
+    <!-- ADMIN PANEL -->
+    <section id="adminView" class="hidden flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-4 space-y-4">
+        <div class="bg-white rounded-md shadow p-4 flex flex-wrap items-center justify-between gap-2 border-l-4 border-fkBlue">
+            <div>
+                <h2 class="text-base sm:text-xl font-extrabold text-gray-900">ॲडमिन पॅनेल — साई इलेक्ट्रॉनिक फैजपूर</h2>
+                <p class="text-xs text-gray-500">येथून केलेले बदल थेट Firebase वर सेव्ह होतात आणि सर्व ग्राहकांना दिसतात.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="switchTab('storefront')" class="bg-gray-200 text-gray-900 text-xs font-bold px-3 py-2 rounded">स्टोअर पहा</button>
+                <button onclick="syncFromFirebaseOnce(true)" class="bg-blue-100 text-blue-900 text-xs font-bold px-3 py-2 rounded">क्लाउड रिफ्रेश</button>
+                <button onclick="resetToDefaults()" class="bg-amber-100 text-amber-900 text-xs font-bold px-3 py-2 rounded">डिफॉल्ट रिसेट</button>
+                <button onclick="logoutAdmin()" class="bg-red-600 text-white text-xs font-bold px-3 py-2 rounded">लॉक करा</button>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-md shadow px-3 flex overflow-x-auto no-scrollbar border-b">
+            <button id="tab-orders" onclick="switchAdminSubTab('orders')" class="admin-tab-btn px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-gray-500 whitespace-nowrap">
+                ऑर्डर्स (<span id="orderBadgeCount">0</span>)
+            </button>
+            <button id="tab-manage-products" onclick="switchAdminSubTab('manage-products')" class="admin-tab-btn px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-fkBlue text-fkBlue whitespace-nowrap">
+                प्रॉडक्ट्स जोडा/बदला
+            </button>
+            <button id="tab-manage-categories" onclick="switchAdminSubTab('manage-categories')" class="admin-tab-btn px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-gray-500 whitespace-nowrap">
+                कॅटेगरी
+            </button>
+            <button id="tab-manage-banners" onclick="switchAdminSubTab('manage-banners')" class="admin-tab-btn px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-gray-500 whitespace-nowrap">
+                बॅनर्स
+            </button>
+            <button id="tab-manage-settings" onclick="switchAdminSubTab('manage-settings')" class="admin-tab-btn px-4 py-3 text-xs sm:text-sm font-bold border-b-2 border-transparent text-gray-500 whitespace-nowrap">
+                संपर्क नंबर
+            </button>
+        </div>
+
+        <div id="subtab-orders" class="hidden bg-white rounded-md shadow p-4 space-y-3">
+            <div class="flex items-center justify-between">
+                <h3 class="font-extrabold text-sm sm:text-base">ग्राहकांच्या ऑर्डर्स</h3>
+                <button onclick="clearAllOrders()" class="bg-red-100 text-red-700 text-xs font-bold px-3 py-1 rounded">सर्व हटवा</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                    <thead>
+                        <tr class="bg-gray-100 border-b">
+                            <th class="p-2">वेळ</th>
+                            <th class="p-2">नाव</th>
+                            <th class="p-2">मोबाईल</th>
+                            <th class="p-2">पत्ता</th>
+                            <th class="p-2">प्रॉडक्ट</th>
+                            <th class="p-2">किंमत</th>
+                            <th class="p-2">कृती</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminOrdersTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="subtab-manage-products" class="space-y-4">
+            <form id="productForm" onsubmit="handleProductSubmit(event)" class="bg-white rounded-md shadow p-4 space-y-3 text-xs sm:text-sm">
+                <h3 id="productFormTitle" class="font-extrabold text-sm sm:text-base border-b pb-2">नवीन प्रॉडक्ट जोडा / एडिट करा</h3>
+                <input type="hidden" id="prodId">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block font-bold mb-1">प्रॉडक्टचे नाव *</label>
+                        <input id="prodTitle" type="text" required class="w-full border rounded px-3 py-2" placeholder="उदा. Samsung 43 Smart TV">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">कॅटेगरी *</label>
+                        <input id="prodCategory" list="categorySuggestions" type="text" required class="w-full border rounded px-3 py-2 bg-white" placeholder="कॅटेगरी निवडा किंवा लिहा">
+                        <datalist id="categorySuggestions"></datalist>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">स्टॉक</label>
+                        <select id="prodStock" class="w-full border rounded px-3 py-2 bg-white">
+                            <option value="In Stock">In Stock</option>
+                            <option value="Out of Stock">Out of Stock</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">MRP (₹) *</label>
+                        <input id="prodMrp" type="number" required oninput="autoCalculateDiscount()" class="w-full border rounded px-3 py-2" placeholder="35000">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">विक्री किंमत (₹) *</label>
+                        <input id="prodPrice" type="number" required oninput="autoCalculateDiscount()" class="w-full border rounded px-3 py-2" placeholder="27990">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">डिस्काउंट</label>
+                        <input id="prodDiscount" type="text" class="w-full border rounded px-3 py-2 bg-gray-50" placeholder="20% OFF">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">कॅपॅसिटी / साईझ</label>
+                        <input id="prodCapacity" type="text" class="w-full border rounded px-3 py-2" placeholder="उदा. 43 Inch / 1.5 Ton">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">वॉरंटी</label>
+                        <input id="prodWarranty" type="text" class="w-full border rounded px-3 py-2" placeholder="उदा. 1 Year Warranty">
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-1">फोटो URL किंवा फाइल</label>
+                        <input id="prodImage" type="text" class="w-full border rounded px-3 py-2 mb-1" placeholder="https://... किंवा फाइल निवडा">
+                        <input type="file" accept="image/*" onchange="convertImageToBase64(this, 'prodImage')" class="text-xs">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-bold mb-1">वैशिष्ट्ये / तपशील</label>
+                    <textarea id="prodSpecs" rows="3" class="w-full border rounded px-3 py-2" placeholder="प्रॉडक्टची माहिती लिहा..."></textarea>
+                </div>
+                <div class="flex gap-2">
+                    <button id="saveProdBtn" type="submit" class="bg-fkBlue text-white font-bold px-5 py-2 rounded shadow">प्रॉडक्ट सेव्ह करा</button>
+                    <button id="cancelEditBtn" type="button" onclick="resetProductForm()" class="hidden bg-gray-200 text-gray-800 font-bold px-4 py-2 rounded">रद्द करा</button>
+                </div>
+            </form>
+
+            <div class="bg-white rounded-md shadow p-4 overflow-x-auto">
+                <h3 class="font-extrabold text-sm sm:text-base mb-3">सर्व प्रॉडक्ट्स</h3>
+                <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                    <thead>
+                        <tr class="bg-gray-100 border-b">
+                            <th class="p-2">नाव</th>
+                            <th class="p-2">कॅटेगरी</th>
+                            <th class="p-2">किंमत</th>
+                            <th class="p-2">स्टॉक</th>
+                            <th class="p-2">कृती</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminProductsTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="subtab-manage-categories" class="hidden space-y-4">
+            <form onsubmit="handleCategorySubmit(event)" class="bg-white rounded-md shadow p-4 space-y-3 text-xs sm:text-sm">
+                <h3 class="font-extrabold text-sm sm:text-base border-b pb-2">कॅटेगरी जोडा</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <input id="catName" type="text" required class="border rounded px-3 py-2" placeholder="कॅटेगरी नाव">
+                    <input id="catImage" type="text" class="border rounded px-3 py-2" placeholder="फोटो URL (ऐच्छिक)">
+                    <button type="submit" class="bg-fkBlue text-white font-bold px-4 py-2 rounded shadow">कॅटेगरी जोडा</button>
+                </div>
+            </form>
+            <div id="adminCategoryGrid" class="bg-white rounded-md shadow p-4 grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+        </div>
+
+        <div id="subtab-manage-banners" class="hidden space-y-4">
+            <form onsubmit="handleBannerSubmit(event)" class="bg-white rounded-md shadow p-4 space-y-3 text-xs sm:text-sm">
+                <h3 class="font-extrabold text-sm sm:text-base border-b pb-2">नवीन बॅनर जोडा</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <input id="banTitle" type="text" required class="border rounded px-3 py-2" placeholder="बॅनर शीर्षक">
+                    <input id="banSubtitle" type="text" class="border rounded px-3 py-2" placeholder="उपशीर्षक">
+                    <button type="submit" class="bg-fkBlue text-white font-bold px-4 py-2 rounded shadow">बॅनर जोडा</button>
+                </div>
+            </form>
+            <div id="adminHeroBannerList" class="bg-white rounded-md shadow p-4 grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        </div>
+
+        <div id="subtab-manage-settings" class="hidden bg-white rounded-md shadow p-4">
+            <form onsubmit="handleSettingsSubmit(event)" class="space-y-3 max-w-md text-xs sm:text-sm">
+                <h3 class="font-extrabold text-sm sm:text-base border-b pb-2">संपर्क नंबर सेटिंग्ज</h3>
+                <div>
+                    <label class="block font-bold mb-1">चौकशी कॉल नंबर</label>
+                    <input id="settingContact" type="text" required class="w-full border rounded px-3 py-2">
+                </div>
+                <div>
+                    <label class="block font-bold mb-1">WhatsApp ऑर्डर नंबर (91 सह)</label>
+                    <input id="settingWhatsapp" type="text" required class="w-full border rounded px-3 py-2">
+                </div>
+                <button type="submit" class="bg-fkBlue text-white font-bold px-5 py-2 rounded shadow">सेव्ह करा</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-300 mt-8 py-6 px-4 text-xs sm:text-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+                <div class="text-white font-extrabold text-base">साई इलेक्ट्रॉनिक, फैजपूर</div>
+                <div class="text-gray-400">राजकमल कलेक्शन जवळ, आठवडे बाजार, फैजपूर, जि. जळगाव</div>
+            </div>
+            <div>
+                <a id="footerPhoneLink" href="tel:9145780320" class="text-fkYellow font-bold"><i class="fas fa-phone-alt"></i> कॉल: 9145780320</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PIN MODAL -->
+    <div id="passwordModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-xs w-full p-5 shadow-xl space-y-3">
+            <div class="flex items-center justify-between border-b pb-2">
+                <h3 class="font-extrabold text-sm">ॲडमिन लॉगिन</h3>
+                <button onclick="closePasswordModal()" class="text-gray-500"><i class="fas fa-times"></i></button>
+            </div>
+            <form onsubmit="verifyAdminPassword(event)" class="space-y-3">
+                <input id="adminPinInput" type="password" maxlength="10" class="w-full border rounded px-3 py-2 text-center font-bold" placeholder="PIN टाका">
+                <p id="passwordError" class="hidden text-xs text-red-600 font-bold">चुकीचा PIN!</p>
+                <button type="submit" class="w-full bg-fkBlue text-white font-bold text-xs py-2 rounded">लॉगिन</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DETAIL MODAL -->
+    <div id="productDetailModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-3 overflow-y-auto">
+        <div class="bg-white rounded-lg max-w-xl w-full p-4 sm:p-6 shadow-2xl relative">
+            <button onclick="closeProductModal()" class="absolute top-3 right-3 bg-gray-100 w-8 h-8 rounded-full"><i class="fas fa-times"></i></button>
+            <div id="modalContent" class="space-y-3"></div>
+        </div>
+    </div>
+
+    <!-- CART MODAL -->
+    <div id="cartModal" class="hidden fixed inset-0 bg-black/60 z-50 items-center justify-center p-3">
+        <div class="bg-white rounded-lg max-w-md w-full p-4 shadow-2xl space-y-3 max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between border-b pb-2">
+                <h3 class="font-extrabold text-base">तुमची Cart</h3>
+                <button onclick="closeCartModal()" class="text-gray-500"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="cartItems" class="space-y-2 overflow-y-auto flex-1"></div>
+            <div class="border-t pt-3 space-y-2">
+                <div class="flex jus
