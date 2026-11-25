@@ -1625,25 +1625,44 @@ async function publishToOnlineNow() {
   }
 }
 
-async function loadStoreDataFromOnline() {
+
+            async function loadStoreDataFromOnline() {
   try {
-    const res = await fetch(`./${GH_STORE_SYNC.dataFile}?t=${Date.now()}`);
+    const res = await fetch(`store-data.json?t=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) return;
     const remote = await res.json();
+    if (!remote || typeof remote !== "object") return;
 
-    if (Array.isArray(remote.products) && remote.products.length > 0 && typeof appProducts !== "undefined") {
-      appProducts = remote.products;
-      localStorage.setItem("sai_elec_products", JSON.stringify(appProducts));
+    if (Array.isArray(remote.products) && remote.products.length > 0) {
+      if (typeof appProducts !== "undefined") appProducts = remote.products;
+      if (typeof products !== "undefined") products = remote.products;
+      localStorage.setItem("sai_elec_products", JSON.stringify(remote.products));
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.toLowerCase().includes("product")) {
+          localStorage.setItem(k, JSON.stringify(remote.products));
+        }
+      }
     }
-    if (Array.isArray(remote.banners) && remote.banners.length > 0 && typeof appBanners !== "undefined") {
-      appBanners = remote.banners;
-      localStorage.setItem("sai_elec_banners", JSON.stringify(appBanners));
+
+    if (Array.isArray(remote.banners) && remote.banners.length > 0) {
+      if (typeof appBanners !== "undefined") appBanners = remote.banners;
+      if (typeof banners !== "undefined") banners = remote.banners;
+      localStorage.setItem("sai_elec_banners", JSON.stringify(remote.banners));
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.toLowerCase().includes("banner")) {
+          localStorage.setItem(k, JSON.stringify(remote.banners));
+        }
+      }
     }
-    if (typeof remote.ticker === "string" && remote.ticker.trim() !== "" && typeof appTicker !== "undefined") {
-      appTicker = remote.ticker;
-      localStorage.setItem("sai_elec_ticker", appTicker);
+
+    if (typeof remote.ticker === "string" && remote.ticker.trim() !== "") {
+      if (typeof appTicker !== "undefined") appTicker = remote.ticker;
+      if (typeof ticker !== "undefined") ticker = remote.ticker;
+      localStorage.setItem("sai_elec_ticker", remote.ticker);
       const tEl = document.getElementById("ticker-text-display");
-      if (tEl) tEl.innerText = appTicker;
+      if (tEl) tEl.innerText = remote.ticker;
     }
 
     if (typeof renderProducts === "function") renderProducts();
@@ -1651,14 +1670,14 @@ async function loadStoreDataFromOnline() {
     if (typeof renderAdminProductsTable === "function") renderAdminProductsTable();
     if (typeof renderAdminBannersList === "function") renderAdminBannersList();
   } catch (e) {
-    console.log("Online load fallback:", e);
+    console.log("Online load error:", e);
   }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   loadStoreDataFromOnline();
 });
-            
+
         }
         (function() {
   const addPublishBar = () => {
