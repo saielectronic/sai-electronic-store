@@ -1690,7 +1690,11 @@ window.addEventListener("DOMContentLoaded", () => {
           "Content-Type": "application/json"
         };
         let sha = "";
-        const getRes = await fetch(apiUrl, { headers });
+                const getRes = await fetch(`${apiUrl}?t=${Date.now()}`, {
+          headers,
+          cache: "no-store"
+        });
+          
         if (getRes.ok) {
           const info = await getRes.json();
           sha = info.sha || "";
