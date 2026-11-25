@@ -1549,6 +1549,25 @@
             setTimeout(() => {
                 toast.remove();
             }, 3500);
+            window.addEventListener("DOMContentLoaded", () => {
+  const timer = setInterval(() => {
+    const adminBody = document.querySelector("#adminPanelModal .overflow-y-auto");
+    if (adminBody && !document.getElementById("onlinePublishBtn")) {
+      clearInterval(timer);
+      const box = document.createElement("div");
+      box.className = "bg-blue-50 border border-blue-300 rounded p-3 mb-3 flex items-center justify-between gap-2";
+      box.innerHTML = `
+        <span class="text-xs font-semibold text-blue-900">ग्राहकांना ऑनलाइन बदल दाखवा:</span>
+        <button type="button" id="onlinePublishBtn" class="bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded">Online Publish</button>
+      `;
+      adminBody.prepend(box);
+      document.getElementById("onlinePublishBtn").onclick = () => {
+        if (typeof publishToOnlineNow === "function") publishToOnlineNow();
+      };
+    }
+  }, 500);
+});
+            
             const GH_STORE_SYNC = {
   owner: "saielectronic",
   repo: "sai-electronic-store",
