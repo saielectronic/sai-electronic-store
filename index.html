@@ -1549,6 +1549,97 @@
             setTimeout(() => {
                 toast.remove();
             }, 3500);
+            const GH_STORE_SYNC = {
+  owner: "saielectronic",
+  repo: "sai-electronic-store",
+  branch: "main",
+  dataFile: "store-data.json"
+};
+
+async function publishToOnlineNow() {
+  let token = localStorage.getItem("sai_gh_token");
+  if (!token) {
+    token = prompt("GitHub Token (repo scope) येथे टाका:");
+    if (!token) return;
+    localStorage.setItem("sai_gh_token", token.trim());
+  }
+
+  const url = `https://api.github.com/repos/${GH_STORE_SYNC.owner}/${GH_STORE_SYNC.repo}/contents/${GH_STORE_SYNC.dataFile}`;
+  const headers = {
+    "Authorization": `Bearer ${token.trim()}`,
+    "Accept": "application/vnd.github+json",
+    "Content-Type": "application/json"
+  };
+
+  try {
+    let sha = null;
+    const getRes = await fetch(`${url}?ref=${GH_STORE_SYNC.branch}`, { headers });
+    if (getRes.ok) {
+      const info = await getRes.json();
+      sha = info.sha;
+    }
+
+    const payload = {
+      updatedAt: new Date().toISOString(),
+      products: typeof appProducts !== "undefined" ? appProducts : [],
+      banners: typeof appBanners !== "undefined" ? appBanners : [],
+      ticker: typeof appTicker !== "undefined" ? appTicker : ""
+    };
+
+    const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+
+    const putRes = await fetch(url, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({
+        message: "Admin update: sync store data",
+        content: contentBase64,
+        branch: GH_STORE_SYNC.branch,
+        ...(sha ? { sha } : {})
+      })
+    });
+
+    if (!putRes.ok) throw new Error("GitHub commit failed");
+    if (typeof showToast === "function") showToast("✅ ऑनलाइन सिंक यशस्वी!", "success");
+  } catch (err) {
+    if (typeof showToast === "function") showToast("❌ एरर: " + err.message, "warning");
+  }
+}
+
+async function loadStoreDataFromOnline() {
+  try {
+    const res = await fetch(`./${GH_STORE_SYNC.dataFile}?t=${Date.now()}`);
+    if (!res.ok) return;
+    const remote = await res.json();
+
+    if (Array.isArray(remote.products) && remote.products.length > 0 && typeof appProducts !== "undefined") {
+      appProducts = remote.products;
+      localStorage.setItem("sai_elec_products", JSON.stringify(appProducts));
+    }
+    if (Array.isArray(remote.banners) && remote.banners.length > 0 && typeof appBanners !== "undefined") {
+      appBanners = remote.banners;
+      localStorage.setItem("sai_elec_banners", JSON.stringify(appBanners));
+    }
+    if (typeof remote.ticker === "string" && remote.ticker.trim() !== "" && typeof appTicker !== "undefined") {
+      appTicker = remote.ticker;
+      localStorage.setItem("sai_elec_ticker", appTicker);
+      const tEl = document.getElementById("ticker-text-display");
+      if (tEl) tEl.innerText = appTicker;
+    }
+
+    if (typeof renderProducts === "function") renderProducts();
+    if (typeof renderBannerSlider === "function") renderBannerSlider();
+    if (typeof renderAdminProductsTable === "function") renderAdminProductsTable();
+    if (typeof renderAdminBannersList === "function") renderAdminBannersList();
+  } catch (e) {
+    console.log("Online load fallback:", e);
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadStoreDataFromOnline();
+});
+            
         }
     </script>
 </body>
