@@ -1672,9 +1672,56 @@ window.addEventListener("DOMContentLoaded", () => {
       <button type="button" id="onlinePublishBtn" class="bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded">Online Publish</button>
     `;
     modalBox.insertBefore(bar, modalBox.children[1] || null);
-    document.getElementById("onlinePublishBtn").onclick = () => {
-      if (typeof publishToOnlineNow === "function") publishToOnlineNow();
+        document.getElementById("onlinePublishBtn").onclick = async () => {
+      let token = localStorage.getItem("sai_gh_token") || "";
+      if (!token) {
+        token = (prompt("GitHub Personal Access Token (ghp_...) paste kara:") || "").trim();
+        if (!token) return alert("Token takle nahi!");
+        localStorage.setItem("sai_gh_token", token);
+      }
+      try {
+        const owner = "saielectronic";
+        const repo = "sai-electronic-store";
+        const path = "store-data.json";
+        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+        const headers = {
+          "Authorization": `token ${token}`,
+          "Accept": "application/vnd.github+json",
+          "Content-Type": "application/json"
+        };
+        let sha = "";
+        const getRes = await fetch(apiUrl, { headers });
+        if (getRes.ok) {
+          const info = await getRes.json();
+          sha = info.sha || "";
+        }
+        const payload = {
+          updatedAt: new Date().toISOString(),
+          products: typeof appProducts !== "undefined" ? appProducts : [],
+          banners: typeof appBanners !== "undefined" ? appBanners : [],
+          ticker: typeof appTicker !== "undefined" ? appTicker : ""
+        };
+        const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+        const putRes = await fetch(apiUrl, {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({
+            message: "Admin update: sync store data",
+            content: contentBase64,
+            branch: "main",
+            ...(sha ? { sha } : {})
+          })
+        });
+        if (!putRes.ok) {
+          const errText = await putRes.text();
+          throw new Error(errText || "GitHub commit fail zala");
+        }
+        alert("✅ ऑनलाइन सिंक यशस्वी! 1-2 मिनिटांत 2ऱ्या फोनवर रिफ्रेश करा.");
+      } catch (e) {
+        alert("❌ Error: " + e.message);
+      }
     };
+      
   };
   setInterval(addPublishBar, 500);
 })();
